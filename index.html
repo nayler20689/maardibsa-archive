@@ -1,0 +1,1647 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أرشيف راحلي معردبسة</title>
+    <link rel="icon" type="image/jpeg" href="icon.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- استدعاء مكتبات Firebase السحابية -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+    <style>
+        :root {
+            --primary-color: #1b4332;
+            --secondary-color: #2d6a4f;
+            --accent-color: #d4a373;
+            --bg-color: #f8f9fa;
+            --text-color: #2b2b2b;
+            --card-bg: #ffffff;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.75;
+            padding-bottom: 50px;
+        }
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 20px 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        header h1 {
+            font-family: 'Amiri', serif;
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+        header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .nav-bar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 6px;
+            background: #ffffff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            padding: 10px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            align-items: center;
+        }
+        .nav-item {
+            padding: 8px 12px;
+            font-weight: 700;
+            color: var(--text-color);
+            background: #f1f3f5;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.85rem;
+            text-align: center;
+            flex: 1 1 30%;
+        }
+        .nav-item.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        .secret-jalal-btn {
+            background: linear-gradient(135deg, #b7094c, #89023e) !important;
+            color: white !important;
+            border-radius: 20px;
+            animation: pulse-glow 2s infinite;
+            width: 100%;
+            flex: 1 1 100% !important;
+        }
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 0 0 rgba(183, 9, 76, 0.4); }
+            70% { box-shadow: 0 0 0 8px rgba(183, 9, 76, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(183, 9, 76, 0); }
+        }
+        .admin-nav-btn {
+            background: #e8f4ed;
+            color: var(--primary-color);
+            border: 1px solid var(--secondary-color);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.85rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            flex: 1 1 30%;
+            text-align: center;
+        }
+        .bell-btn {
+            background: #fff8f0;
+            border: 1px solid var(--accent-color);
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.85rem;
+            width: 100%;
+            justify-content: center;
+            margin-top: 4px;
+            flex: 1 1 100%;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+        .section-content {
+            display: none;
+        }
+        .section-content.active {
+            display: block;
+        }
+        .announcement-board {
+            background: var(--card-bg);
+            border: 2px dashed var(--accent-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(212, 163, 115, 0.15);
+            text-align: center;
+        }
+        .announcement-board h2 {
+            font-family: 'Amiri', serif;
+            color: var(--primary-color);
+            font-size: 1.35rem;
+            margin-bottom: 10px;
+            border-bottom: 2px solid var(--bg-color);
+            padding-bottom: 8px;
+        }
+        .quran-verse {
+            font-family: 'Amiri', serif;
+            font-size: 1.15rem;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        .latest-card {
+            background: #fff8f0;
+            border: 1px solid var(--accent-color);
+            padding: 16px;
+            border-radius: 10px;
+            margin-top: 10px;
+            text-align: right;
+        }
+        .latest-flex {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .go-to-profile-announcement-btn {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 8px 18px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.85rem;
+            margin-top: 12px;
+            cursor: pointer;
+            border: none;
+        }
+        .sub-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        .sub-tab-btn {
+            background: #e9ecef;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .sub-tab-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+        .search-box {
+            width: 100%;
+            padding: 12px 20px;
+            font-size: 1rem;
+            border: 1px solid #ced4da;
+            border-radius: 30px;
+            margin-bottom: 20px;
+            outline: none;
+        }
+        .search-box:focus {
+            border-color: var(--primary-color);
+        }
+        .record-card {
+            background: var(--card-bg);
+            padding: 14px 18px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            border-right: 5px solid var(--secondary-color);
+            transition: 0.2s;
+        }
+        .record-card:hover {
+            background: #f1f7f4;
+            transform: translateY(-2px);
+        }
+        .record-info {
+            flex: 1;
+            cursor: pointer;
+        }
+        .record-info h3 {
+            font-size: 1.05rem;
+            color: var(--primary-color);
+            margin-bottom: 3px;
+        }
+        .record-info p {
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .record-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .record-date {
+            background: #f1f3f5;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            white-space: nowrap;
+        }
+        .delete-record-btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        .person-profile-box {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-right: 6px solid var(--primary-color);
+            margin-bottom: 20px;
+        }
+        .profile-header-card {
+            background: linear-gradient(135deg, #f4f7f5, #e8f4ed);
+            border: 1px solid var(--secondary-color);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .profile-header-card h2 {
+            font-family: 'Amiri', serif;
+            color: var(--primary-color);
+            font-size: 1.6rem;
+            margin-bottom: 8px;
+        }
+        .profile-badge-counter {
+            display: inline-block;
+            background: var(--accent-color);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+        .back-btn {
+            background: #e9ecef;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        .person-condolence-list {
+            max-height: 400px;
+            overflow-y: auto;
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+        .delete-comm-btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+        .accordion-btn {
+            width: 100%;
+            background: white;
+            color: var(--primary-color);
+            border: 1px solid #e0e0e0;
+            border-right: 5px solid var(--accent-color);
+            padding: 16px 20px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            text-align: right;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.04);
+        }
+        .accordion-panel {
+            display: none;
+            background: white;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-top: none;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+        }
+        .accordion-panel.show { display: block; }
+        .hadith-box {
+            background: #f4f7f5;
+            border-right: 4px solid var(--primary-color);
+            padding: 10px 14px;
+            margin: 10px 0;
+            border-radius: 6px;
+            font-family: 'Amiri', serif;
+            font-size: 1.05rem;
+            color: #1b4332;
+        }
+        .about-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-right: 5px solid var(--accent-color);
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .dedication-box {
+            background: #fff8f0;
+            border: 1px solid var(--accent-color);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-family: 'Amiri', serif;
+            font-size: 1.15rem;
+            color: var(--primary-color);
+            line-height: 1.8;
+        }
+        .whatsapp-btn {
+            display: inline-block;
+            background: #25d366;
+            color: white;
+            padding: 11px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            margin-top: 15px;
+        }
+        .profile-banner {
+            background: white;
+            border: 1px solid var(--accent-color);
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .profile-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .profile-avatar-display {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-color);
+            background: #e9ecef;
+            flex-shrink: 0;
+        }
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-box {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            text-align: right;
+        }
+        .admin-form {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+        }
+        .photo-preview {
+            display: none;
+            width: 85px;
+            height: 85px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-top: 10px;
+            border: 2px solid var(--primary-color);
+        }
+        .submit-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-weight: 700;
+            width: 100%;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        .submit-btn.secondary {
+            background: var(--secondary-color);
+        }
+        .login-box {
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>أرشيف راحلي معردبسة</h1>
+        <p>سجل توثيقي وديني متكامل لأهالي القرية</p>
+    </header>
+
+    <!-- شريط التنقل العلوي -->
+    <div class="nav-bar">
+        <button class="nav-item active" onclick="switchSection('home', this)">🏠 الرئيسية</button>
+        <button class="nav-item" onclick="switchSection('archive', this)">📜 سجل الراحلين</button>
+        <button class="nav-item" onclick="switchSection('rulings', this)">📖 الأحكام</button>
+        <button class="nav-item" onclick="switchSection('about', this)">ℹ️ حول</button>
+        <a id="navWhatsappBtn" href="https://wa.me/9647839886852" target="_blank" class="admin-nav-btn">📞 المشرف</a>
+        <button class="nav-item" onclick="switchSection('admin', this)">🔐 المشرف</button>
+        
+        <button id="jalalSecretNavBtn" class="nav-item secret-jalal-btn" onclick="openJalalProfile()" style="display: none;">🕊️ ذكرى أخيكم جلال الأبرش</button>
+        
+        <button class="bell-btn" id="bellBtn" onclick="toggleNotifications()">🔔 التنبيهات</button>
+    </div>
+
+    <div class="container">
+
+        <!-- قسم الرئيسية -->
+        <div id="home" class="section-content active">
+            <div class="profile-banner">
+                <div class="profile-info">
+                    <img id="bannerAvatar" src="" class="profile-avatar-display" alt="صورة الزائر" style="display:none;">
+                    <div id="bannerAvatarPlaceholder" class="profile-avatar-display" style="display:flex; align-items:center; justify-content:center; font-size:1.2rem; color:#888;">👤</div>
+                    <div>
+                        <h4 id="bannerName" style="color: var(--primary-color);">الزائر الكريم</h4>
+                        <p id="bannerStatus" style="font-size: 0.8rem; color: #666;">هويتك محفوظة وثابتة على هذا الجهاز</p>
+                    </div>
+                </div>
+                <button onclick="openProfileModal()" style="background: var(--primary-color); color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 0.85rem;">⚙️ ملفي الشخصي</button>
+            </div>
+
+            <!-- لوحة النعوة والوفيات الأخيرة -->
+            <div class="announcement-board">
+                <div class="quran-verse">﴿ كُلُّ نَفْسٍ ذَائِقَةُ الْمَوْتِ ۗ وَإِنَّمَا تُوَفَّوْنَ أُجورَكُمْ يَوْمَ الْقِيَامَةِ ﴾</div>
+                <h2>📢 لوحة النعوة والوفيات الأخيرة</h2>
+                <div id="latest-announcement">
+                    <div class="latest-card">
+                        <p style="text-align: center; color: #666; padding: 10px;">لا توجد حالات وفاة جديدة معلنة حالياً. بانتظار إضافة أحدث حالة وفاة من لوحة المشرف.</p>
+                    </div>
+                </div>
+           
+            </div>
+
+<!-- الشريط المتحرك الجذاب (يظهر للجميع) -->
+<div style="background-color: #ffffff; border: 2px solid #e0e0e0; padding: 12px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+    <marquee behavior="scroll" direction="right" scrollamount="5" style="color: #000000; font-weight: bold; font-size: 16px; font-family: Tahoma, sans-serif;">
+        <span id="publicTicker">جاري تحميل الشريط الإخباري...</span>
+    </marquee>
+</div>
+<!-- قسم إهداءات الصدقات الجارية (يظهر للعامة) -->
+<div class="card" style="background: white; padding: 15px; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+    <h3>🕊️ سجل الصدقات والإهداءات الجارية عن الأموات</h3>
+    <button class="btn" onclick="openSadaqaModal()" style="background-color: #1e5631; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">أهْدِ صدقة لفقيدك (طلب إرسال للمشرف)</button>
+    <div id="publicSadaqatList" style="margin-top: 15px;">
+        <!-- ستُعرض هنا الصدقات المعتمدة فقط -->
+    </div>
+</div>
+
+<!-- نافذة منبثقة لطلب إهداء صدقة -->
+<div id="sadaqaModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; z-index: 1000;">
+    <div style="background:white; padding:20px; width:90%; max-width:400px; border-radius:8px; direction: rtl; text-align: right;">
+        <h3>طلب إهداء صدقة جارية</h3>
+        <label>اسم المتوفى:</label>
+        <input type="text" id="reqDeceasedName" placeholder="مثال: المرحوم فلان العلي" style="width:100%; padding:8px; margin:5px 0 15px 0; border:1px solid #ccc; border-radius:4px;">
+        
+        <label>نوع العمل الخيري:</label>
+        <input type="text" id="reqSadaqaType" placeholder="مثال: تم التبرع بصهريج ماء سبيل" style="width:100%; padding:8px; margin:5px 0 15px 0; border:1px solid #ccc; border-radius:4px;">
+        
+        <label>اسم المُهدي (من أرسلها):</label>
+        <input type="text" id="reqSenderName" placeholder="مثال: ابنه أحمد" style="width:100%; padding:8px; margin:5px 0 15px 0; border:1px solid #ccc; border-radius:4px;">
+
+        <button class="btn" onclick="submitSadaqaRequest()" style="background-color: #1e5631; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; width: 100%;">إرسال الطلب للمشرف</button>
+        <button class="btn" style="background-color: #dc3545; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; width: 100%; margin-top: 5px;" onclick="closeSadaqaModal()">إلغاء</button>
+    </div>
+</div>
+            <!-- إحصائية إجمالي الراحلين -->
+            <div style="background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: white; padding: 18px; border-radius: 12px; text-align: center; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                <h3 style="font-family: 'Amiri', serif; font-size: 1.25rem; margin-bottom: 5px;">📊 إجمالي الراحلين المسجلين في الأرشيف</h3>
+                <p style="font-size: 1.8rem; font-weight: bold; color: var(--accent-color);" id="totalDeceasedCounter">0</p>
+                <p style="font-size: 0.85rem; opacity: 0.9;">(شامل لجميع الفئات: رجال، نساء، أطفال)</p>
+            </div>
+
+            <!-- عداد الزوار المسجلين للتطبيق سحابياً -->
+            <div style="background: white; border: 2px solid var(--accent-color); color: var(--primary-color); padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                <h4 style="font-family: 'Amiri', serif; font-size: 1.1rem; margin-bottom: 3px;">👥 عدد الزوار المسجلين في التطبيق</h4>
+                <p style="font-size: 1.5rem; font-weight: bold; color: var(--secondary-color);" id="totalRegisteredVisitorsCounter">0 زائر</p>
+            </div>
+
+            <div class="dedication-box" style="margin-top: 25px;">
+                قام بانشاء هذا التطبيق العبد الفقير الى الله جلال الابرش وهو صدقة جارية عنه وعن والديه وعن موتى المسلمين اجمعين
+            </div>
+        </div>
+
+        <!-- نافذة تعديل الملف الشخصي -->
+        <div class="modal-overlay" id="profileModal">
+            <div class="modal-box">
+                <h3 style="color: var(--primary-color); margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 8px;">👤 ملفي الشخصي</h3>
+                <div class="form-group">
+                    <label>اسمك الكريم والعائلة:</label>
+                    <input type="text" id="modalVisitorName" placeholder="مثال: أبو محمد الحموي">
+                </div>
+                <div class="form-group">
+                    <label>صورتك الشخصية (اختياري):</label>
+                    <input type="file" id="modalVisitorPhoto" accept="image/*" onchange="previewVisitorPhoto(event)">
+                    <img id="modalPhotoPreview" class="photo-preview" alt="معاينة الصورة">
+                </div>
+                <p id="modalLockNotice" style="font-size: 0.8rem; color: #c92a2a; margin-bottom: 15px; display: none;"></p>
+                <div style="display: flex; gap: 10px;">
+                    <button class="submit-btn" onclick="saveVisitorProfile()" id="saveProfileBtn">حفظ التعديلات</button>
+                    <button onclick="closeProfileModal()" style="background: #6c757d; color: white; border: none; padding: 12px 15px; border-radius: 6px; cursor: pointer; font-weight: bold;">إلغاء</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- قسم سجل الراحلين -->
+        <div id="archive" class="section-content">
+            <div id="archiveMainView">
+                <div class="sub-tabs">
+                    <button class="sub-tab-btn active" onclick="switchCategory('men', this)">الرجال (<span id="countMen">0</span>)</button>
+                    <button class="sub-tab-btn" onclick="switchCategory('women', this)">النساء (<span id="countWomen">0</span>)</button>
+                    <button class="sub-tab-btn" onclick="switchCategory('child', this)">الأطفال (<span id="countChild">0</span>)</button>
+                </div>
+                <input type="text" class="search-box" id="searchInput" oninput="filterRecords()" placeholder="ابحث بالاسم أو العائلة أو السنة...">
+                <div id="records-list"></div>
+            </div>
+
+            <div id="personProfileView" style="display: none;">
+                <button class="back-btn" onclick="backToArchiveList()">⬅️ العودة إلى قائمة سجل الراحلين</button>
+                
+                <div class="profile-header-card">
+                    <span style="font-size: 0.85rem; color: var(--secondary-color); font-weight: bold;">أرشيف راحلي معردبسة - غرفة العزاء وصفحة المتوفى</span>
+                    <h2 id="personNameTitle"></h2>
+                    <p id="personYearDetails" style="font-size: 0.95rem; color: #555; margin-top: 5px;"></p>
+                    <div class="profile-badge-counter" id="personCounterBadge">🕊️ عدد أدعية المصلين: 0</div>
+                </div>
+
+                <div class="person-profile-box">
+                    <h3 style="color: var(--primary-color); font-size: 1.1rem; margin-bottom: 8px;">📖 ديوان العزاء والأدعية (غرفة المراسلة):</h3>
+                    <div class="person-condolence-list" id="personCondolencesList"></div>
+                    
+                    <div style="display: flex; gap: 8px; margin-top: 15px;">
+                        <input type="text" id="personNewCondolenceText" placeholder="اكتب تعزية أو دعاءً للمتوفى..." style="flex:1; padding: 12px; border: 1px solid #ced4da; border-radius: 6px; font-size: 0.95rem;">
+                        <button onclick="addPersonCondolence()" style="background: var(--primary-color); color: white; border: none; padding: 12px 22px; border-radius: 6px; font-weight: bold; cursor: pointer;">إرسال التعزية</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- الصفحة الخاصة لجلال الأبرش -->
+            <div id="jalalSpecialProfileView" style="display: none;">
+                <button class="back-btn" onclick="backToArchiveList()">⬅️ العودة إلى القائمة الرئيسية</button>
+                
+                <div class="profile-header-card" style="background: linear-gradient(135deg, #fff0f3, #ffe3e6); border-color: #b7094c;">
+                    <span style="font-size: 0.85rem; color: #b7094c; font-weight: bold;">رسالة الوداع والوصية الخالدة</span>
+                    <h2 style="color: #89023e; font-family: 'Amiri', serif; font-size: 1.8rem; margin-top: 5px;">جلال عبد الرحمن الأبرش (أبو ناصر)</h2>
+                    <p style="font-size: 0.95rem; color: #555; margin-top: 3px;">المواليد: 20 / 6 / 1989</p>
+                    <div class="profile-badge-counter" id="jalalCounterBadge" style="background: #b7094c;">🕊️ عدد أدعية المصلين والزوار: 0</div>
+                </div>
+
+                <div class="person-profile-box" style="border-right-color: #b7094c;">
+                    <div style="font-family: 'Amiri', serif; font-size: 1.15rem; line-height: 2.1; color: #2b2b2b; text-align: justify; background: #fff8f9; padding: 20px; border-radius: 8px; border: 1px solid #f7c6c7;">
+                        <p style="text-align: center; font-weight: bold; color: #89023e; margin-bottom: 12px;">بسم الله والحمد لله والصلاة والسلام على سيدنا محمد وعلى آله وصحبه ومن والاه...</p>
+                        <p style="text-align: center; color: #2d6a4f; margin-bottom: 15px;">﴿ كُلُّ نَفْسٍ ذَائِقَةُ الْمَوْتِ ۗ وَإِنَّمَا تُوَفَّوْنَ أُجورَكُمْ يَوْمَ الْقِيَامَةِ ﴾<br>﴿ يَا أَيُّهَا النَّفْسُ الْمُطْمَئِنَّةُ ارْجِعِي إِلَى رَبِّكِ رَاضِيَةً مَرْضِيَّةً فَادْخُلِي فِي عِبَادِي وَادْخُلِي جَنَّتِي ﴾</p>
+                        
+                        <p><b>أما بعد..</b><br>حينما تظهر هذه الخانة للجميع، أكون قد انتقلت إلى رحمة الله تعالى، وتكون هذه أول ليلة لي في القبر. أسأل الله العظيم الثبات عند السؤال، وأدعو الله لي ولكم بالنجاة والفوز ومرافقة الأنبياء والصديقين في جنات النعيم.</p>
+                        
+                        <p style="margin-top: 12px;"><b>إخواني، أهلي، وأحبتي..</b><br>أما والله إنّي قد دفعتُ يدي وارسلتُها قبلي وأودعتها الله في معارك العز والشرف في سبيل الله، وإنّي لم أستطع تقديم شيء آخر في سبيل الله سوى يدي التي بُترت. وها أنا اليوم أتبعها بأمر الله وانتقل إلى جوار من لا تضيع عنده ودائعُ أبداً.</p>
+                        
+                        <p style="margin-top: 12px;">أدعو لي أن يتقبلها الله مني قبولاً حسناً، وأن يثبتني عند السؤال، وأن نلتقي جميعاً على حوض نبينا محمد صلى الله عليه وسلم. وقد قمت بعمل هذا التطبيق خالصاً لوجه الله الكريم، صدقة جارية عني وعن والديه وعن موتى المسلمين أجمعين.</p>
+                        
+                        <p style="text-align: center; margin-top: 18px; font-weight: bold; color: #89023e;">لا تنسوني من صالح دعواتكم بالرحمة والمغفرة.<br>أخوكم المحب لكم دائماً: جلال عبد الرحمن الأبرش (أبو ناصر)</p>
+                    </div>
+
+                    <h3 style="color: var(--primary-color); font-size: 1.1rem; margin-top: 20px; margin-bottom: 8px;">📖 ديوان العزاء والدعاء لروحه الطاهرة:</h3>
+                    <div class="person-condolence-list" id="jalalCondolencesList"></div>
+                    
+                    <div style="display: flex; gap: 8px; margin-top: 15px;">
+                        <input type="text" id="jalalNewCondolenceText" placeholder="اكتب دعاءً أو تعزية لأبي ناصر..." style="flex:1; padding: 12px; border: 1px solid #ced4da; border-radius: 6px; font-size: 0.95rem;">
+                        <button onclick="addJalalCondolence()" style="background: #b7094c; color: white; border: none; padding: 12px 22px; border-radius: 6px; font-weight: bold; cursor: pointer;">إرسال التعزية</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- قسم الأحكام الشرعية -->
+        <div id="rulings" class="section-content">
+            <p style="margin-bottom: 15px; color: #555; font-size: 0.9rem; text-align: center;">اضغط على أي عنوان أدناه لعرض الشرح الشرعي التفصيلي والأدلة:</p>
+            
+            <button class="accordion-btn" onclick="toggleAccordion(this)">
+                <span>1. كيفية تغسيل وتكفين الميت (الرجل) بالتفصيل</span>
+                <span>▼</span>
+            </button>
+            <div class="accordion-panel">
+                <h4>أولاً: صفة تغسيل الرجل:</h4>
+                <ol>
+                    <li><b>الستر والتجريد:</b> يُوضع الميت على سرير الغسل في مكان مستور، وتُستر عورته بقطعة قماش.</li>
+                    <li><b>عصر البطن برفق:</b> يمسح الغاسل بطنه برفق ليخرج ما فيه.</li>
+                    <li><b>الوضوء:</b> يوضئه وضوء الصلاة.</li>
+                    <li><b>غسل الجسد وتراً:</b> يغسل رأسه ولحيته بالسدر، ثم شقه الأيمن ثم الأيسر ثلاثاً.</li>
+                    <li><b>الكافور:</b> يُجعل في الغسلة الأخيرة شيء من كافور.</li>
+                </ol>
+                <div class="hadith-box"><b>الدليل من السنة:</b> قول النبي ﷺ: «اغسلنها ثلاثاً أو خمساً... واجعلن في الآخرة كافوراً» [متفق عليه].</div>
+            </div>
+
+            <button class="accordion-btn" onclick="toggleAccordion(this)">
+                <span>2. كيفية تغسيل وتكفين المتوفاة (المرأة) بالتفصيل</span>
+                <span>▼</span>
+            </button>
+            <div class="accordion-panel">
+                <h4>أولاً: صفة تغسيل المرأة:</h4>
+                <ol>
+                    <li>تغسلها النساء الصالحات الأمينات.</li>
+                    <li>تُستر عورتها وتُوضأ وضوء الصلاة، ويغسل جسدها وتراً.</li>
+                    <li><b>ضفر الشعر:</b> يُضفر شعرها ثلاثة قرون وتُلقى خلف ظهرها.</li>
+                </ol>
+                <div class="hadith-box"><b>الدليل من السنة:</b> عن أم عطية رضي الله عنها: «فمشطناها ثلاثة قرون فألقيناها خلفها» [متفق عليه].</div>
+            </div>
+
+            <button class="accordion-btn" onclick="toggleAccordion(this)">
+                <span>3. ما مقدار أجر المشارك بالجنازة بالدليل؟</span>
+                <span>▼</span>
+            </button>
+            <div class="accordion-panel">
+                <p>من صلى على الجنازة فله قيراط، ومن تبعها حتى تدفن فله قيراطان (مثل الجبلين العظيمين).</p>
+                <div class="hadith-box"><b>الدليل:</b> «من شهد الجنازة حتى يصلى عليها فله قيراط، ومن شهدها حتى تدفن فله قيراطان» [متفق عليه].</div>
+            </div>
+
+            <button class="accordion-btn" onclick="toggleAccordion(this)">
+                <span>4. أين تصح الصلاة على الجنائز؟</span>
+                <span>▼</span>
+            </button>
+            <div class="accordion-panel">
+                <p>تصح في المسجد، أو في مصلى الجنائز خارج المسجد، أو عند القبر لمن فاتته الصلاة.</p>
+                <div class="hadith-box"><b>الدليل:</b> صلاة النبي ﷺ على ابني بيضاء في المسجد [رواه مسلم].</div>
+            </div>
+
+            <button class="accordion-btn" onclick="toggleAccordion(this)">
+                <span>5. كيفية صلاة الجنازة والتسليم تسليمة واحدة</span>
+                <span>▼</span>
+            </button>
+            <div class="accordion-panel">
+                <p>أربع تكبيرات: الفاتحة، الصلاة الإبراهيمية، الدعاء للميت، الدعاء للجميع، ثم يسلم تسليمة واحدة عن يمينه.</p>
+                <div class="hadith-box"><b>الدليل:</b> عن أبي هريرة رضي الله عنه: «أن رسول الله ﷺ صلى على جنازة فكبر عليها أربعاً، وسلم تسليمة واحدة» [رواه الدارقطني].</div>
+            </div>
+        </div>
+
+        <!-- قسم حول التطبيق -->
+        <div id="about" class="section-content">
+            <div class="about-card">
+                <h3 style="color: var(--primary-color); font-family: 'Amiri', serif; font-size: 1.5rem; margin-bottom: 10px;">عن التطبيق</h3>
+                <p style="color: #555; margin-bottom: 15px; font-size: 1.05rem;">مرحباً بكم في التطبيق الرسمي لأهالي معردبسة. يهدف هذا التطبيق إلى توثيق أرشيف راحلي القرية من الرجال والنساء الأطفال بصورة منظمة وموثوقة.</p>
+                <p style="margin: 15px 0; font-size: 1.1rem;"><b>المشرف العام (لتسجيل الوفيات):</b> <span id="display-admin-name">علي الهشوم (أبو عمر)</span></p>
+                <p style="color: #555;">للتواصل والاستفسار أو إبلاغ المشرف عن حالة وفاة جديدة:</p>
+                <a id="whatsapp-link" href="https://wa.me/9647839886852" target="_blank" class="whatsapp-btn">💬 مراسلة المشرف عبر واتساب</a>
+            </div>
+            <div class="dedication-box">
+                قام بانشاء هذا التطبيق العبد الفقير الى الله جلال الابرش وهو صدقة جارية عنه وعن والديه وعن موتى المسلمين اجمعين
+            </div>
+        </div>
+
+        <!-- قسم لوحة المشرف -->
+        <div id="admin" class="section-content">
+            <div id="login-screen" class="login-box">
+                <h3 style="color: var(--primary-color);">تسجيل دخول المشرف</h3>
+                <p style="margin: 10px 0; color: #666; font-size: 0.9rem;">أدخل كلمة المرور الخاصة بالمشرف للوصول إلى لوحة الإدارة</p>
+                <input type="password" id="admin-pass" placeholder="كلمة المرور" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 6px; text-align: center;">
+                <button class="submit-btn" onclick="checkAdminLogin()">دخول</button>
+            </div>
+            <div id="admin-panel" class="admin-form" style="display: none;">
+                <h3 style="color: var(--primary-color); margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 8px;">🛠️ لوحة إدارة الوفيات السحابية</h3>
+                
+                <div class="form-group">
+                    <label>اسم المتوفى الثلاثي / الرباعي:</label>
+                    <input type="text" id="new-name" placeholder="مثال: محمد أحمد العلي">
+                </div>
+                <div class="form-group">
+                    <label>الفئة:</label>
+                    <select id="new-category">
+                        <option value="men">رجال</option>
+                        <option value="women">نساء</option>
+                        <option value="child">أطفال</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>تاريخ الوفاة أو السنة (مثال: 2015):</label>
+                    <input type="text" id="new-date" placeholder="أدخل سنة أو تاريخ الوفاة">
+                </div>
+                <div class="form-group">
+                    <label>موعد الصلاة والتنبيه للأهالي:</label>
+                    <select id="new-prayer-time">
+                        <option value="تتم الصلاة فوراً (الآن)">تتم الصلاة فوراً (الآن)</option>
+                        <option value="الصلاة بعد نصف ساعة">الصلاة بعد نصف ساعة</option>
+                        <option value="الصلاة بعد ساعة">الصلاة بعد ساعة</option>
+                        <option value="تحدد لاحقاً">تحدد لاحقاً</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>مكان الدفن والتفاصيل:</label>
+                    <textarea id="new-details" rows="3" placeholder="مثال: دفن بمقبرة القرية، العزاء في ديوان القرية"></textarea>
+                </div>
+
+                <button class="submit-btn" onclick="publishAnnouncement()">📢 نشر إعلان وفاة حديثة (تظهر بالرئيسية وترسل تنبيه)</button>
+                <button class="submit-btn secondary" onclick="addOldRecordOnly()">➕ إضافة متوفى قديم للأرشيف السحابي</button>
+                
+                <hr style="margin: 25px 0; border:0; border-top:2px dashed var(--accent-color);">
+           <!-- أضف هذا داخل لوحة تحكم المشرف لديك -->
+<div style="background: #e9ecef; padding: 15px; border-radius: 8px; margin-top: 20px;">
+    <h3>🛠️ لوحة تحكم المشرف (الشريط والصدقات)</h3>
+    
+    <label>تعديل الشريط المتحرك العلوي:</label>
+    <textarea id="adminTickerInput" rows="2" placeholder="اكتب نص الإعلان أو الدعاء هنا..." style="width:100%; padding:8px; margin:5px 0 15px 0; border:1px solid #ccc; border-radius:4px;"></textarea>
+    <button class="btn" onclick="saveTickerToCloud()" style="background-color: #1e5631; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer;">تحديث الشريط المتحرك</button>
+
+    <hr style="margin: 20px 0;">
+
+    <h4>طلبات الصدقات المعلقة (بانتظار الاعتماد):</h4>
+    <div id="pendingSadaqatAdmin">جاري التحميل...</div>
+</div>     
+                <!-- رفع ملف CSV إلى Firebase مباشرة -->
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #ced4da;">
+                    <h4 style="color: var(--primary-color); margin-bottom: 8px;">📂 رفع الأرشيف الكامل (CSV) إلى سحاب Firebase الأبدي</h4>
+                    <p style="font-size: 0.85rem; color: #555; margin-bottom: 10px;">اختر ملف الـ CSV، وسيتم رفع وحفظ كافة الأسماء مباشرة إلى السحاب لتظهر على الجوال واللابتوب للأبد:</p>
+                    <input type="file" id="csvFileInput" accept=".csv" style="margin-bottom: 10px; width: 100%; padding: 8px; background: white; border: 1px solid #ccc; border-radius: 6px;">
+                    <button class="submit-btn" onclick="importAndUploadToFirebase()">☁️ رفع وحفظ جميع الأسماء في Firebase سحابياً</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // إعدادات اتصال Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyD...",
+            authDomain: "abunasser-cyber-system.firebaseapp.com",
+            projectId: "abunasser-cyber-system",
+            storageBucket: "abunasser-cyber-system.appspot.com",
+            messagingSenderId: "...",
+            appId: "..."
+        };
+
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.firestore();
+
+        let deathsData = [];
+        let currentCategory = 'men';
+        let currentSelectedPersonId = null;
+        let visitorName = localStorage.getItem('maardibsa_visitor_name') || "";
+        let visitorPhoto = localStorage.getItem('maardibsa_visitor_photo') || "";
+        let lastUpdateTime = parseInt(localStorage.getItem('maardibsa_last_update') || "0");
+        let notificationsEnabled = localStorage.getItem('maardibsa_notifications') === 'true';
+        let jalalActivated = localStorage.getItem('jalal_secret_activated') === 'true';
+        let isAdminLoggedIn = false;
+
+        window.onload = function() {
+            updateVisitorBanner();
+            updateBellButton();
+            checkJalalSecretState();
+            loadDeathsFromCloud();
+            loadVisitorsCountFromCloud();
+            
+            if (visitorName) {
+                registerVisitorInCloud(visitorName);
+            }
+        };
+
+        // جلب الوفيات مع الترتيب التلقائي من الأحدث للأقدم بناءً على وقت الإنشاء (createdAt)
+     let previousAnnouncementsCount = 0; // لحفظ العدد السابق ومقارنته لتجنب التكرار المزعج
+
+function loadDeathsFromCloud() {
+    db.collection("deaths_archive").onSnapshot((snapshot) => {
+        deathsData = [];
+        let newAnnouncementFound = false;
+
+        snapshot.forEach((doc) => {
+            let item = doc.data();
+            item.docId = doc.id;
+            deathsData.push(item);
+        });
+
+        // ترتيب الأسماء تلقائياً حسب السنة من الأحدث إلى الأقدم
+        deathsData.sort((a, b) => {
+            let yearA = parseInt(a.year) || 0;
+            let yearB = parseInt(b.year) || 0;
+            return yearB - yearA;
+        });
+
+        // فحص ما إذا كان هناك إعلان جديد أو تحديث جديد في النعوة
+        let activeAnnouncements = deathsData.filter(d => d.isAnnouncement === true);
+        
+        if (activeAnnouncements.length > 0 && previousAnnouncementsCount > 0 && activeAnnouncements.length > previousAnnouncementsCount) {
+            newAnnouncementFound = true;
+        }
+        previousAnnouncementsCount = activeAnnouncements.length;
+
+        // إذا وجدنا إعلاناً جديداً أو تحديثاً، والمستخدم مفعل للتنبيهات، نقوم بتشغيل الصوت
+        if (newAnnouncementFound && notificationsEnabled) {
+            playNotificationSound();
+        }
+
+        renderRecords();
+        renderLatestAnnouncement();
+    }, (error) => {
+        console.error("خطأ في جلب البيانات من السحاب: ", error);
+    });
+}
+
+// دالة توليد نغمة التنبيه الصوتي التلقائي
+function playNotificationSound() {
+    try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(587.33, audioCtx.currentTime); // نغمة رنين هادئة
+        oscillator.frequency.setValueAtTime(880, audioCtx.currentTime + 0.15);
+
+        gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.6);
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 0.6);
+    } catch (e) {
+        console.log("التنبيه الصوتي يتطلب تفاعل المستخدم مع الصفحة.");
+    }
+}
+
+        function registerVisitorInCloud(name) {
+            if (!name) return;
+            const visitorIdKey = 'maardibsa_visitor_id';
+            let visitorId = localStorage.getItem(visitorIdKey);
+            
+            if (!visitorId) {
+                visitorId = 'vis_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+                localStorage.setItem(visitorIdKey, visitorId);
+            }
+
+            db.collection("registered_visitors").doc(visitorId).set({
+                name: name,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            }, { merge: true }).catch(err => console.log(err));
+        }
+
+        function loadVisitorsCountFromCloud() {
+            db.collection("registered_visitors").onSnapshot((snapshot) => {
+                const totalCount = snapshot.size;
+                const counterEl = document.getElementById('totalRegisteredVisitorsCounter');
+                if (counterEl) {
+                    counterEl.innerText = totalCount + " زائر مسجل";
+                }
+            }, (err) => {
+                console.log(err);
+            });
+        }
+
+        function checkJalalSecretState() {
+            const btn = document.getElementById('jalalSecretNavBtn');
+            if (jalalActivated) {
+                btn.style.display = 'block';
+            } else {
+                btn.style.display = 'none';
+            }
+        }
+
+        function checkSecretActivation(name, birthDate) {
+            if (name && (name.includes("جلال عبد الرحمن الأبرش") || name.includes("جلال الابرش"))) {
+                jalalActivated = true;
+                localStorage.setItem('jalal_secret_activated', 'true');
+                checkJalalSecretState();
+            }
+        }
+
+        function openJalalProfile() {
+            document.querySelectorAll('.section-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            document.getElementById('archive').classList.add('active');
+            document.getElementById('archiveMainView').style.display = 'none';
+            document.getElementById('personProfileView').style.display = 'none';
+            document.getElementById('jalalSpecialProfileView').style.display = 'block';
+            loadCloudCondolencesForPerson('jalal_abourach_special');
+        }
+function loadCloudCondolencesForPerson(personId) {
+    const listContainer = personId === 'jalal_abourach_special' ? document.getElementById('jalalCondolencesList') : document.getElementById('personCondolencesList');
+    const counterBadge = personId === 'jalal_abourach_special' ? document.getElementById('jalalCounterBadge') : document.getElementById('personCounterBadge');
+
+    db.collection("condolences")
+      .where("deceasedId", "==", personId)
+      .onSnapshot((snapshot) => {
+          let comments = [];
+          snapshot.forEach((doc) => {
+              let item = doc.data();
+              item.commentId = doc.id;
+              comments.push(item);
+          });
+
+          // ترتيب محلي حسب الوقت لتفادي مشاكل فهرسة فايربيس
+          comments.sort((a, b) => {
+              let timeA = a.timestamp ? a.timestamp.toMillis() : 0;
+              let timeB = b.timestamp ? b.timestamp.toMillis() : 0;
+              return timeA - timeB;
+          });
+
+          if (comments.length === 0) {
+              counterBadge.innerText = `🕊️ عدد أدعية المصلين والزوار: 0`;
+              listContainer.innerHTML = `<div style="text-align:center; color:#777; padding:10px;">كن أول من يكتب تعزية أو دعاءً لتبقى ذكراه عطرة...</div>`;
+              return;
+          }
+
+          counterBadge.innerText = `🕊️ عدد أدعية المصلين والزوار: ${comments.length}`;
+
+          let mainComments = comments.filter(c => !c.parentId);
+          let replies = comments.filter(c => c.parentId);
+
+          let html = '';
+          mainComments.forEach((c) => {
+              let showDelete = (visitorName && c.name === visitorName) || isAdminLoggedIn;
+              let deleteBtnHtml = showDelete ? `<button class="delete-comm-btn" onclick="deleteCloudCondolence('${c.commentId}')">حذف</button>` : '';
+              
+              let commentReplies = replies.filter(r => r.parentId === c.commentId);
+              let repliesHtml = '';
+              
+              commentReplies.forEach(r => {
+                  let showReplyDelete = (visitorName && r.name === visitorName) || isAdminLoggedIn;
+                  let deleteReplyBtn = showReplyDelete ? `<button class="delete-comm-btn" onclick="deleteCloudCondolence('${r.commentId}')" style="font-size:0.65rem; padding:2px 6px;">حذف</button>` : '';
+                  repliesHtml += `
+                      <div style="background: #f1f3f5; padding: 8px 12px; border-radius: 6px; margin-top: 6px; margin-right: 20px; border-right: 2px solid var(--primary-color); font-size: 0.9rem;">
+                          <div style="display:flex; justify-content:space-between; align-items:center;">
+                              <b>${r.name}:</b>
+                              ${deleteReplyBtn}
+                          </div>
+                          <p style="margin-top:2px; color:#333;">${r.text}</p>
+                      </div>
+                  `;
+              });
+
+              html += `
+                  <div style="background: white; padding: 12px 14px; border-radius: 8px; margin-bottom: 10px; border-right: 4px solid var(--accent-color); box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                      <div style="display: flex; justify-content: space-between; align-items: center;">
+                          <b>${c.name}</b>
+                          ${deleteBtnHtml}
+                      </div>
+                      <p style="margin: 6px 0; color: #2b2b2b;">${c.text}</p>
+                      
+                      <div style="margin-top: 5px;">${repliesHtml}</div>
+
+                      <div style="display: flex; gap: 5px; margin-top: 8px;">
+                          <input type="text" id="replyText_${c.commentId}" placeholder="اكتب رداً أو تعقيباً..." style="flex:1; padding: 6px 10px; border: 1px solid #ced4da; border-radius: 4px; font-size: 0.85rem;">
+                          <button onclick="addReplyToComment('${personId}', '${c.commentId}')" style="background: var(--secondary-color); color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 0.85rem; cursor: pointer; font-weight: bold;">رد</button>
+                      </div>
+                  </div>
+              `;
+          });
+          listContainer.innerHTML = html;
+      }, (error) => {
+          console.error("خطأ في جلب التعليقات سحابياً: ", error);
+      });
+}
+
+        function addCloudCondolence(personId, inputId) {
+            if (!visitorName) {
+                openProfileModal();
+                alert('يرجى تحديد اسمك أولاً في الملف الشخصي لتستطيع كتابة تعزية');
+                return;
+            }
+            const input = document.getElementById(inputId);
+            const text = input.value.trim();
+            if (!text) {
+                alert('يرجى كتابة نص الدعاء أو التعزية');
+                return;
+            }
+
+            db.collection("condolences").add({
+                deceasedId: personId,
+                name: visitorName,
+                text: text,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                input.value = "";
+            }).catch((error) => {
+                alert('حدث خطأ في إرسال التعزية: ' + error.message);
+            });
+        }
+
+        function addReplyToComment(personId, parentId) {
+            if (!visitorName) {
+                openProfileModal();
+                alert('يرجى تحديد اسمك أولاً في الملف الشخصي لتستطيع كتابة رد');
+                return;
+            }
+            const input = document.getElementById(`replyText_${parentId}`);
+            const text = input.value.trim();
+            if (!text) {
+                alert('يرجى كتابة نص الرد');
+                return;
+            }
+
+            db.collection("condolences").add({
+                deceasedId: personId,
+                parentId: parentId,
+                name: visitorName,
+                text: text,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                input.value = "";
+            }).catch((error) => {
+                alert('حدث خطأ في إرسال الرد: ' + error.message);
+            });
+        }
+
+        function addPersonCondolence() {
+            addCloudCondolence(currentSelectedPersonId, 'personNewCondolenceText');
+        }
+
+        function addJalalCondolence() {
+            addCloudCondolence('jalal_abourach_special', 'jalalNewCondolenceText');
+        }
+
+        function deleteCloudCondolence(commentId) {
+            if (!confirm('هل أنت متأكد من حذف هذا التعليق؟')) return;
+            db.collection("condolences").doc(commentId).delete().catch((error) => {
+                alert('حدث خطأ أثناء الحذف: ' + error.message);
+            });
+        }
+
+        function renderLatestAnnouncement() {
+            const announcementEl = document.getElementById('latest-announcement');
+            const latest = deathsData.find(d => d.isAnnouncement === true);
+
+            if (!latest) {
+                announcementEl.innerHTML = `
+                    <div class="latest-card">
+                        <p style="text-align: center; color: #666; padding: 10px;">لا توجد حالات وفاة جديدة معلنة حالياً. بانتظار إضافة أحدث حالة وفاة من لوحة المشرف.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let pId = latest.docId || latest.id;
+            announcementEl.innerHTML = `
+                <div class="latest-card">
+                    <div class="latest-flex">
+                        <div>
+                            <h3 style="color: var(--primary-color);">انتقل إلى رحمة الله تعالى</h3>
+                            <p style="font-size: 1.05rem;"><b>الاسم:</b> ${latest.name}</p>
+                            <p style="color: #b7094c; font-weight: bold;"><b>${latest.details}</b></p>
+                            <button class="go-to-profile-announcement-btn" onclick="openPersonProfile('${pId}')">🕊️ الدخول إلى ديوان العزاء وغرفة المراسلة</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderRecords() {
+            const listEl = document.getElementById('records-list');
+            const searchVal = document.getElementById('searchInput').value.trim().toLowerCase();
+            
+            const menList = deathsData.filter(d => d.category === 'men');
+            const womenList = deathsData.filter(d => d.category === 'women');
+            const childList = deathsData.filter(d => d.category === 'child');
+
+            document.getElementById('countMen').innerText = menList.length;
+            document.getElementById('countWomen').innerText = womenList.length;
+            document.getElementById('countChild').innerText = childList.length;
+            
+            const totalCounterEl = document.getElementById('totalDeceasedCounter');
+            if (totalCounterEl) {
+                totalCounterEl.innerText = deathsData.length;
+            }
+
+            let activeList = currentCategory === 'men' ? menList : (currentCategory === 'women' ? womenList : childList);
+
+            if (searchVal) {
+                activeList = deathsData.filter(d => d.name.toLowerCase().includes(searchVal) || String(d.year).includes(searchVal));
+            }
+
+            if (activeList.length === 0) {
+                listEl.innerHTML = `<p style="text-align: center; color: #666; padding: 20px;">لا توجد أسماء مسجلة حالياً في السحاب. قم برفع ملف الـ CSV من لوحة المشرف لترتفع الأسماء إلى السحاب للأبد.</p>`;
+                return;
+            }
+
+            let html = '';
+            activeList.forEach(item => {
+                let pId = item.docId || item.id;
+                let deleteBtnHtml = isAdminLoggedIn ? `<button class="delete-record-btn" onclick="deleteRecordFromCloud('${item.docId}', event)">حذف</button>` : '';
+
+                html += `
+                    <div class="record-card">
+                        <div class="record-info" onclick="openPersonProfile('${pId}')">
+                            <h3>${item.name}</h3>
+                            <p style="font-size: 0.85rem; color: #555;">${item.details || ''}</p>
+                        </div>
+                        <div class="record-actions">
+                            ${deleteBtnHtml}
+                            <div class="record-date">${item.year}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            listEl.innerHTML = html;
+        }
+
+        function deleteRecordFromCloud(docId, event) {
+            event.stopPropagation();
+            if (!confirm('هل أنت متأكد من حذف هذا الاسم من السحاب نهائياً؟')) return;
+            db.collection("deaths_archive").doc(docId).delete().then(() => {
+                alert('تم حذف الاسم من السحاب بنجاح!');
+            }).catch((error) => {
+                alert('حدث خطأ أثناء الحذف: ' + error.message);
+            });
+        }
+
+        function openPersonProfile(personId) {
+            currentSelectedPersonId = personId;
+            const person = deathsData.find(d => (d.docId == personId) || (d.id == personId) || (d.name === personId));
+            if (!person) return;
+
+            document.getElementById('personNameTitle').innerText = person.name;
+            document.getElementById('personYearDetails').innerText = person.details || '';
+
+            loadCloudCondolencesForPerson(personId);
+
+            document.querySelectorAll('.section-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            document.getElementById('archive').classList.add('active');
+
+            document.getElementById('archiveMainView').style.display = 'none';
+            document.getElementById('jalalSpecialProfileView').style.display = 'none';
+            document.getElementById('personProfileView').style.display = 'block';
+        }
+
+        function backToArchiveList() {
+            document.getElementById('personProfileView').style.display = 'none';
+            document.getElementById('jalalSpecialProfileView').style.display = 'none';
+            document.getElementById('archiveMainView').style.display = 'block';
+            renderRecords();
+        }
+
+        function switchCategory(cat, btnEl) {
+            currentCategory = cat;
+            document.querySelectorAll('.sub-tab-btn').forEach(el => el.classList.remove('active'));
+            if (btnEl) btnEl.classList.add('active');
+            renderRecords();
+        }
+
+        function filterRecords() {
+            renderRecords();
+        }
+
+        function importAndUploadToFirebase() {
+            const fileInput = document.getElementById('csvFileInput');
+            if (!fileInput.files || fileInput.files.length === 0) {
+                alert('يرجى اختيار ملف الـ CSV أولاً');
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                const text = e.target.result;
+                const lines = text.split(/\r\n|\n/);
+                let importedCount = 0;
+
+                alert('جارٍ رفع وترتيل الأسماء إلى سحاب Firebase، يرجى الانتظار ثوانٍ...');
+
+                let batch = db.batch();
+                let countInBatch = 0;
+
+                for (let i = 0; i < lines.length; i++) {
+                    let line = lines[i].trim();
+                    if (!line) continue;
+
+                    if (i === 0 && (line.includes('name') || line.includes('الاسم') || line.includes('سنة'))) {
+                        continue;
+                    }
+
+                    let cols = line.split(/,|\t|;/);
+                    if (cols.length >= 1) {
+                        let name = cols[0] ? cols[0].replace(/["']/g, "").trim() : "";
+                        let year = cols[1] ? cols[1].replace(/["']/g, "").trim() : "غير محدد";
+                        let category = cols[2] ? cols[2].replace(/["']/g, "").trim().toLowerCase() : "men";
+
+                        if (!name) continue;
+
+                        let catCode = "men";
+                        if (category.includes('نس') || category.includes('women') || category.includes('أنثى')) {
+                            catCode = "women";
+                        } else if (category.includes('طفل') || category.includes('child') || category.includes('أطفال')) {
+                            catCode = "child";
+                        }
+
+                        let docRef = db.collection("deaths_archive").doc();
+                        batch.set(docRef, {
+                            name: name,
+                            year: year,
+                            details: "سنة الوفاة: " + year,
+                            category: catCode,
+                            isAnnouncement: false,
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+
+                        importedCount++;
+                        countInBatch++;
+
+                        if (countInBatch >= 400) {
+                            batch.commit();
+                            batch = db.batch();
+                            countInBatch = 0;
+                        }
+                    }
+                }
+
+                batch.commit().then(() => {
+                    alert(`تم بنجاح رفع وحفظ ${importedCount} اسماً إلى سحاب Firebase للأبد، وستظهر الآن على الجوال واللابتوب فوراً!`);
+                }).catch((error) => {
+                    alert('حدث خطأ أثناء الرفع السحابي: ' + error.message);
+                });
+            };
+
+            reader.readAsText(file, 'UTF-8');
+        }
+
+        function publishAnnouncement() {
+            const name = document.getElementById('new-name').value.trim();
+            const category = document.getElementById('new-category').value;
+            const year = document.getElementById('new-date').value.trim() || 'حديثاً';
+            const prayer = document.getElementById('new-prayer-time').value;
+            const details = document.getElementById('new-details').value.trim();
+
+            if (!name) {
+                alert('يرجى إدخال اسم المتوفى');
+                return;
+            }
+
+            db.collection("deaths_archive").add({
+                name: name,
+                year: year,
+                category: category,
+                details: `موعد الصلاة: ${prayer}\n${details}`,
+                isAnnouncement: true,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                alert('تم نشر إعلان الوفاة بنجاح في السحاب!');
+            });
+        }
+
+        function addOldRecordOnly() {
+            const name = document.getElementById('new-name').value.trim();
+            const category = document.getElementById('new-category').value;
+            const year = document.getElementById('new-date').value.trim() || 'سابقاً';
+            const details = document.getElementById('new-details').value.trim() || 'أرشيف قديم';
+
+            if (!name) {
+                alert('يرجى إدخال اسم المتوفى');
+                return;
+            }
+
+            db.collection("deaths_archive").add({
+                name: name,
+                year: year,
+                category: category,
+                details: details,
+                isAnnouncement: false,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                alert('تم إضافة المتوفى للأرشيف السحابي بنجاح!');
+            });
+        }
+
+        function checkAdminLogin() {
+            const pass = document.getElementById('admin-pass').value;
+            if (pass === 'nayler89') {
+                isAdminLoggedIn = true;
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('admin-panel').style.display = 'block';
+                renderRecords();
+            } else {
+                alert('كلمة المرور غير صحيحة!');
+            }
+        }
+
+        function openProfileModal() {
+            const now = new Date().getTime();
+            const threeDaysMs = 3 * 24 * 60 * 60 * 1000;
+            const timeElapsed = now - lastUpdateTime;
+            const notice = document.getElementById('modalLockNotice');
+            const saveBtn = document.getElementById('saveProfileBtn');
+
+            document.getElementById('modalVisitorName').value = visitorName;
+            if (visitorPhoto) {
+                const preview = document.getElementById('modalPhotoPreview');
+                preview.src = visitorPhoto;
+                preview.style.display = 'block';
+            }
+
+            if (lastUpdateTime > 0 && timeElapsed < threeDaysMs) {
+                const remainingHours = Math.ceil((threeDaysMs - timeElapsed) / (1000 * 60 * 60));
+                notice.innerText = `عذراً، لا يمكنك تغيير الاسم أو الصورة إلا بعد مرور 3 أيام. متبقي حوالي ${remainingHours} ساعة.`;
+                notice.style.display = 'block';
+                saveBtn.style.opacity = "0.5";
+                saveBtn.disabled = true;
+            } else {
+                notice.style.display = 'none';
+                saveBtn.style.opacity = "1";
+                saveBtn.disabled = false;
+            }
+            document.getElementById('profileModal').style.display = 'flex';
+        }
+
+        function closeProfileModal() {
+            document.getElementById('profileModal').style.display = 'none';
+        }
+
+        let modalPhotoBase64 = visitorPhoto;
+        function previewVisitorPhoto(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const maxSize = 150;
+                    let w = img.width, h = img.height;
+                    if (w > h) { if (w > maxSize) { h *= maxSize / w; w = maxSize; } }
+                    else { if (h > maxSize) { w *= maxSize / h; h = maxSize; } }
+                    canvas.width = w; canvas.height = h;
+                    canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                    modalPhotoBase64 = canvas.toDataURL('image/jpeg', 0.8);
+                    const preview = document.getElementById('modalPhotoPreview');
+                    preview.src = modalPhotoBase64;
+                    preview.style.display = 'block';
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function saveVisitorProfile() {
+            const nameInput = document.getElementById('modalVisitorName').value.trim();
+            if (!nameInput) {
+                alert('يرجى إدخال الاسم الكريم');
+                return;
+            }
+            visitorName = nameInput;
+            visitorPhoto = modalPhotoBase64;
+            lastUpdateTime = new Date().getTime();
+
+            localStorage.setItem('maardibsa_visitor_name', visitorName);
+            localStorage.setItem('maardibsa_visitor_photo', visitorPhoto);
+            localStorage.setItem('maardibsa_last_update', lastUpdateTime);
+
+            registerVisitorInCloud(visitorName);
+
+            checkSecretActivation(visitorName);
+            updateVisitorBanner();
+            closeProfileModal();
+            alert('تم حفظ ملفك الشخصي وثباته على جهازك بنجاح!');
+        }
+
+        function updateVisitorBanner() {
+            const nameEl = document.getElementById('bannerName');
+            const avatarEl = document.getElementById('bannerAvatar');
+            const placeholderEl = document.getElementById('bannerAvatarPlaceholder');
+            const statusEl = document.getElementById('bannerStatus');
+
+            if (visitorName) {
+                nameEl.innerText = visitorName;
+                statusEl.innerText = "هويتك محفوظة وثابتة على هذا الجهاز";
+                if (visitorPhoto) {
+                    avatarEl.src = visitorPhoto;
+                    avatarEl.style.display = 'block';
+                    placeholderEl.style.display = 'none';
+                } else {
+                    avatarEl.style.display = 'none';
+                    placeholderEl.style.display = 'flex';
+                }
+            } else {
+                nameEl.innerText = "الزائر الكريم";
+                statusEl.innerText = "اضغط على ملفي الشخصي لتحديد اسمك وصورتك";
+                avatarEl.style.display = 'none';
+                placeholderEl.style.display = 'flex';
+            }
+        }
+
+        function toggleNotifications() {
+            notificationsEnabled = !notificationsEnabled;
+            localStorage.setItem('maardibsa_notifications', notificationsEnabled);
+            updateBellButton();
+            if (notificationsEnabled) {
+                alert("تم تفعيل جرس التنبيهات وإشعارات مواعيد الصلاة بنجاح!");
+            } else {
+                alert("تم إيقاف التنبيهات.");
+            }
+        }
+
+        function updateBellButton() {
+            const btn = document.getElementById('bellBtn');
+            if (notificationsEnabled) {
+                btn.innerHTML = "🔔 التنبيهات مفعلة";
+                btn.style.background = "#d4a373";
+                btn.style.color = "white";
+            } else {
+                btn.innerHTML = "🔕 تفعيل التنبيهات";
+                btn.style.background = "#fff8f0";
+                btn.style.color = "var(--primary-color)";
+            }
+        }
+
+        function switchSection(sectionId, btnEl) {
+            document.querySelectorAll('.section-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            if (btnEl && !btnEl.classList.contains('secret-jalal-btn')) btnEl.classList.add('active');
+        }
+
+        function toggleAccordion(btn) {
+            btn.classList.toggle('open');
+            const panel = btn.nextElementSibling;
+            panel.classList.toggle('show');
+            const arrow = btn.querySelector('span:last-child');
+            arrow.innerText = btn.classList.contains('open') ? '▲' : '▼';
+        }
+        // تشغيل الدوال عند تحميل الصفحة
+// (تأكد من إضافتها داخل window.onload لديك أو استدعائها هناك)
+loadTicker();
+loadPublicSadaqat();
+loadPendingSadaqatForAdmin();
+
+// 1. إدارة الشريط المتحرك
+function loadTicker() {
+    db.collection("site_settings").doc("ticker").onSnapshot((doc) => {
+        if (doc.exists) {
+            document.getElementById("publicTicker").innerText = doc.data().text || "أهلاً بك في أرشيف راحلي معردبسة.";
+            let adminInput = document.getElementById("adminTickerInput");
+            if(adminInput) adminInput.value = doc.data().text || "";
+        }
+    });
+}
+
+function saveTickerToCloud() {
+    let newText = document.getElementById("adminTickerInput").value;
+    db.collection("site_settings").doc("ticker").set({ text: newText })
+    .then(() => {
+        alert("تم تحديث الشريط المتحرك بنجاح!");
+    })
+    .catch((error) => {
+        alert("حدث خطأ: " + error.message);
+    });
+}
+
+// 2. إهداءات الصدقات
+function openSadaqaModal() { document.getElementById("sadaqaModal").style.display = "flex"; }
+function closeSadaqaModal() { document.getElementById("sadaqaModal").style.display = "none"; }
+
+function submitSadaqaRequest() {
+    let deceased = document.getElementById("reqDeceasedName").value;
+    let type = document.getElementById("reqSadaqaType").value;
+    let sender = document.getElementById("reqSenderName").value;
+
+    if(!deceased || !type || !sender) {
+        alert("الرجاء تعبئة جميع الحقول.");
+        return;
+    }
+
+    db.collection("sadaqat_requests").add({
+        deceasedName: deceased,
+        sadaqaType: type,
+        senderName: sender,
+        status: "pending", // بانتظار موافقة المشرف
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(() => {
+        alert("تم إرسال طلب الصدقة إلى المشرف بنجاح، وستظهر للعامة بعد اعتمادها.");
+        closeSadaqaModal();
+        document.getElementById("reqDeceasedName").value = "";
+        document.getElementById("reqSadaqaType").value = "";
+        document.getElementById("reqSenderName").value = "";
+    });
+}
+
+// عرض الصدقات المعتمدة للعامة
+function loadPublicSadaqat() {
+    db.collection("sadaqat_requests").where("status", "==", "approved").onSnapshot((snapshot) => {
+        let container = document.getElementById("publicSadaqatList");
+        if(!container) return;
+        container.innerHTML = "";
+        if(snapshot.empty) {
+            container.innerHTML = "<p style='color:gray; font-size:14px;'>لا توجد صدقات معتمدة معروضة حالياً.</p>";
+            return;
+        }
+        snapshot.forEach((doc) => {
+            let item = doc.data();
+            container.innerHTML += `
+                <div style="border: 1px solid #d4edda; background-color: #f8fff9; padding: 10px; border-radius: 5px; margin-bottom: 10px;">
+                    <p style="margin: 0 0 5px 0;">🕊️ <strong>المتوفى:</strong> ${item.deceasedName}</p>
+                    <p style="margin: 0 0 5px 0; color: #155724;">💧 <strong>الصدقة:</strong> ${item.sadaqaType}</p>
+                    <p style="margin: 0; font-size: 12px; color: #6c757d;">أهداها عنه: ${item.senderName}</p>
+                </div>
+            `;
+        });
+    });
+}
+
+// عرض الطلبات للمشرف
+function loadPendingSadaqatForAdmin() {
+    db.collection("sadaqat_requests").where("status", "==", "pending").onSnapshot((snapshot) => {
+        let container = document.getElementById("pendingSadaqatAdmin");
+        if(!container) return;
+        container.innerHTML = "";
+        if(snapshot.empty) {
+            container.innerHTML = "<p style='color:gray;'>لا توجد طلبات صدقة معلقة بانتظار الاعتماد.</p>";
+            return;
+        }
+        snapshot.forEach((doc) => {
+            let item = doc.data();
+            let id = doc.id;
+            container.innerHTML += `
+                <div style="background: white; padding: 10px; border: 1px solid #ccc; margin-bottom: 8px; border-radius: 4px;">
+                    <p style="margin:0;"><strong>المتوفى:</strong> ${item.deceasedName} | <strong>العمل:</strong> ${item.sadaqaType} | <strong>المُهدي:</strong> ${item.senderName}</p>
+                    <button class="btn" style="background-color: #28a745; color:white; padding: 5px 10px; margin-top: 5px; border:none; border-radius:4px; cursor:pointer;" onclick="approveSadaqa('${id}')">اعتماد ونشر للعامة</button>
+                    <button class="btn" style="background-color: #dc3545; color:white; padding: 5px 10px; margin-top: 5px; border:none; border-radius:4px; cursor:pointer;" onclick="deleteSadaqa('${id}')">حذف الطلب</button>
+                </div>
+            `;
+        });
+    });
+}
+
+function approveSadaqa(id) {
+    db.collection("sadaqat_requests").doc(id).update({ status: "approved" })
+    .then(() => alert("تم اعتماد ونشر الصدقة بنجاح!"));
+}
+
+function deleteSadaqa(id) {
+    if(confirm("هل أنت متأكد من حذف هذا الطلب؟")) {
+        db.collection("sadaqat_requests").doc(id).delete();
+    }
+}
+    </script>
+</body>
+</html>
