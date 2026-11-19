@@ -325,7 +325,7 @@
             border: 1px solid #e9ecef;
         }
 
-        /* تنسيقات بطاقة التعليق والصورة الشخصية */
+        /* تنسيقات بطاقة التعليق والصورة الشخصية المتجاوبة مع الجوال */
         .comment-card {
             background: white;
             padding: 12px 14px;
@@ -336,24 +336,26 @@
         }
         .comment-card.vip-card {
             background: linear-gradient(135deg, #fffdf9, #f7fbf8);
-            border-right: 4px solid #b8860b;
             border: 1px solid #e6d5b8;
-            border-right-width: 5px;
+            border-right: 5px solid #b8860b;
         }
         .comment-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
             gap: 8px;
         }
         .comment-author-wrap {
             display: flex;
             align-items: center;
             gap: 10px;
+            min-width: 0;
+            flex: 1 1 auto;
         }
         .comment-avatar {
-            width: 38px;
-            height: 38px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid var(--accent-color);
@@ -361,8 +363,8 @@
             background: #e9ecef;
         }
         .comment-avatar-fallback {
-            width: 38px;
-            height: 38px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             background: #e8f4ed;
             color: var(--primary-color);
@@ -374,7 +376,7 @@
             font-size: 1rem;
             flex-shrink: 0;
         }
-        /* توهج ديني وقور لصورة واسم أبوناصر معردبساوي */
+        /* توهج ديني وقور لصورة واسم أبو ناصر معردبساوي */
         .vip-avatar-glow {
             border: 2.5px solid #d4af37 !important;
             box-shadow: 0 0 10px rgba(212, 175, 55, 0.75), 0 0 20px rgba(27, 67, 50, 0.35);
@@ -390,37 +392,27 @@
         }
         .vip-author-name {
             font-family: 'Amiri', serif;
-            font-size: 1.15rem;
+            font-size: 1.12rem;
             font-weight: 700;
-            color: #9c6b19;
             background: linear-gradient(90deg, #8c5e11, #1b4332);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             display: inline-flex;
             align-items: center;
             gap: 5px;
-        }
-        .vip-badge {
-            font-family: 'Cairo', sans-serif;
-            font-size: 0.68rem;
-            background: #fdf6e7;
-            color: #8c5e11;
-            border: 1px solid #d4af37;
-            padding: 1px 7px;
-            border-radius: 12px;
-            font-weight: 700;
-            -webkit-text-fill-color: #8c5e11;
+            white-space: nowrap;
         }
         .comment-time {
-            font-size: 0.72rem;
+            font-size: 0.7rem;
             color: #888;
             display: block;
-            margin-top: -2px;
+            margin-top: 1px;
         }
         .comment-actions {
             display: flex;
             align-items: center;
             gap: 6px;
+            flex-shrink: 0;
         }
         .reply-toggle-btn {
             background: #eef6f0;
@@ -431,6 +423,8 @@
             cursor: pointer;
             font-size: 0.75rem;
             font-weight: 700;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
         .delete-comm-btn {
             background: #ff6b6b;
@@ -441,6 +435,8 @@
             cursor: pointer;
             font-size: 0.75rem;
             font-weight: 700;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
         .reply-box-container {
             display: none;
@@ -451,6 +447,45 @@
         }
         .reply-box-container.open {
             display: flex;
+        }
+
+        /* خانة الزوار المسجلين التفاعلية وقائمة الزوار */
+        .visitors-counter-box {
+            background: white;
+            border: 2px solid var(--accent-color);
+            color: var(--primary-color);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .visitors-counter-box:hover {
+            background: #fffcf7;
+            transform: translateY(-2px);
+        }
+        .visitors-list-container {
+            max-height: 360px;
+            overflow-y: auto;
+            margin-top: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .visitor-row-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+        }
+        .visitor-row-card.vip-row {
+            background: linear-gradient(135deg, #fffdf9, #f7fbf8);
+            border-color: #e6d5b8;
         }
 
         .accordion-btn {
@@ -532,11 +567,15 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
         }
         .profile-info {
             display: flex;
             align-items: center;
             gap: 12px;
+            min-width: 0;
+            flex: 1 1 auto;
         }
         .profile-avatar-display {
             width: 50px;
@@ -561,7 +600,7 @@
             padding: 25px;
             border-radius: 12px;
             width: 90%;
-            max-width: 400px;
+            max-width: 420px;
             text-align: right;
         }
         .admin-form {
@@ -613,20 +652,24 @@
             background: white;
             border-radius: 10px;
         }
+
+        /* الشريط الإعلاني يتحرك من اليسار إلى اليمين باتجاه عربي واضح */
         .ticker-container {
             overflow: hidden;
             white-space: nowrap;
             width: 100%;
             box-sizing: border-box;
+            direction: ltr;
         }
         #publicTicker {
             display: inline-block;
-            padding-left: 100%;
-            animation: marquee-anim 25s linear infinite;
+            direction: rtl;
+            padding-right: 100%;
+            animation: marquee-ltr 25s linear infinite;
         }
-        @keyframes marquee-anim {
-            0% { transform: translate3d(0, 0, 0); }
-            100% { transform: translate3d(-100%, 0, 0); }
+        @keyframes marquee-ltr {
+            0% { transform: translate3d(-100%, 0, 0); }
+            100% { transform: translate3d(100%, 0, 0); }
         }
     </style>
 </head>
@@ -663,7 +706,7 @@
                         <p id="bannerStatus" style="font-size: 0.8rem; color: #666;">يمكنك تعديل اسمك وصورتك متى أردت</p>
                     </div>
                 </div>
-                <button onclick="openProfileModal()" style="background: var(--primary-color); color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 0.85rem;">⚙️ ملفي الشخصي</button>
+                <button onclick="openProfileModal()" style="background: var(--primary-color); color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 0.85rem; white-space: nowrap; flex-shrink: 0;">⚙️ ملفي الشخصي</button>
             </div>
 
             <!-- لوحة النعوة والوفيات الأخيرة -->
@@ -714,14 +757,29 @@
                 <p style="font-size: 0.85rem; opacity: 0.9;">(شامل لجميع الفئات: رجال، نساء، أطفال)</p>
             </div>
 
-            <!-- عداد الزوار المسجلين للتطبيق سحابياً -->
-            <div style="background: white; border: 2px solid var(--accent-color); color: var(--primary-color); padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+            <!-- عداد الزوار المسجلين للتطبيق سحابياً (قابل للضغط لعرض الأسماء والصور) -->
+            <div class="visitors-counter-box" onclick="openVisitorsModal()" title="اضغط لعرض قائمة الزوار المسجلين وصورهم">
                 <h4 style="font-family: 'Amiri', serif; font-size: 1.1rem; margin-bottom: 3px;">👥 عدد الزوار المسجلين في التطبيق</h4>
                 <p style="font-size: 1.5rem; font-weight: bold; color: var(--secondary-color);" id="totalRegisteredVisitorsCounter">0 زائر</p>
+                <span style="font-size: 0.78rem; color: #666;">اضغط هنا لعرض أسماء وصور المسجلين</span>
             </div>
 
             <div class="dedication-box" style="margin-top: 25px;">
                 قام بانشاء هذا التطبيق العبد الفقير الى الله جلال الابرش وهو صدقة جارية عنه وعن والديه وعن موتى المسلمين اجمعين
+            </div>
+        </div>
+
+        <!-- نافذة عرض الزوار المسجلين وصورهم -->
+        <div class="modal-overlay" id="visitorsModal">
+            <div class="modal-box">
+                <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #eee; padding-bottom:8px;">
+                    <h3 style="color: var(--primary-color); margin:0;">👥 الزوار المسجلون في التطبيق</h3>
+                    <button onclick="closeVisitorsModal()" style="background:#f1f3f5; border:none; border-radius:50%; width:30px; height:30px; cursor:pointer; font-weight:bold;">✕</button>
+                </div>
+                <div id="visitorsListModalBody" class="visitors-list-container">
+                    <p style="text-align:center; color:#666;">جاري تحميل قائمة الزوار...</p>
+                </div>
+                <button onclick="closeVisitorsModal()" style="background: var(--primary-color); color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 14px;">إغلاق</button>
             </div>
         </div>
 
@@ -782,8 +840,8 @@
                     <div class="person-condolence-list" id="personCondolencesList"></div>
                     
                     <div style="display: flex; gap: 8px; margin-top: 15px;">
-                        <input type="text" id="personNewCondolenceText" placeholder="اكتب تعزية أو دعاءً للمتوفى..." style="flex:1; padding: 12px; border: 1px solid #ced4da; border-radius: 6px; font-size: 0.95rem;">
-                        <button onclick="addPersonCondolence()" style="background: var(--primary-color); color: white; border: none; padding: 12px 22px; border-radius: 6px; font-weight: bold; cursor: pointer;">إرسال التعزية</button>
+                        <input type="text" id="personNewCondolenceText" placeholder="اكتب تعزية أو دعاءً للمتوفى..." style="flex:1; min-width:0; padding: 12px; border: 1px solid #ced4da; border-radius: 6px; font-size: 0.95rem;">
+                        <button onclick="addPersonCondolence()" style="background: var(--primary-color); color: white; border: none; padding: 12px 18px; border-radius: 6px; font-weight: bold; cursor: pointer; white-space: nowrap; flex-shrink: 0;">إرسال التعزية</button>
                     </div>
                 </div>
             </div>
@@ -817,8 +875,8 @@
                     <div class="person-condolence-list" id="jalalCondolencesList"></div>
                     
                     <div style="display: flex; gap: 8px; margin-top: 15px;">
-                        <input type="text" id="jalalNewCondolenceText" placeholder="اكتب دعاءً أو تعزية لأبي ناصر..." style="flex:1; padding: 12px; border: 1px solid #ced4da; border-radius: 6px; font-size: 0.95rem;">
-                        <button onclick="addJalalCondolence()" style="background: #b7094c; color: white; border: none; padding: 12px 22px; border-radius: 6px; font-weight: bold; cursor: pointer;">إرسال التعزية</button>
+                        <input type="text" id="jalalNewCondolenceText" placeholder="اكتب دعاءً أو تعزية لأبي ناصر..." style="flex:1; min-width:0; padding: 12px; border: 1px solid #ced4da; border-radius: 6px; font-size: 0.95rem;">
+                        <button onclick="addJalalCondolence()" style="background: #b7094c; color: white; border: none; padding: 12px 18px; border-radius: 6px; font-weight: bold; cursor: pointer; white-space: nowrap; flex-shrink: 0;">إرسال التعزية</button>
                     </div>
                 </div>
             </div>
@@ -971,7 +1029,7 @@
     </div>
 
     <script>
-        // إعدادات اتصال Firebase
+        // إعدادات اتصال Firebase — أبقِ مفاتيح مشروعك الفعلية كما هي في ملفك
         const firebaseConfig = {
             apiKey: "AIzaSyD...",
             authDomain: "abunasser-cyber-system.firebaseapp.com",
@@ -986,10 +1044,10 @@
         }
         const db = firebase.firestore();
 
-        const VIP_DISPLAY_NAME = "أبوناصر معردبساوي";
-        const VIP_SECRET_CODE = "أبوناصر#89";
+        const VIP_DISPLAY_NAME = "أبو ناصر معردبساوي";
 
         let deathsData = [];
+        let registeredVisitorsList = [];
         let currentCategory = 'men';
         let currentSelectedPersonId = null;
         let visitorName = localStorage.getItem('maardibsa_visitor_name') || "";
@@ -1053,7 +1111,6 @@
         }
 
         window.onload = function() {
-            // حماية إضافية: إذا لم يكن الجهاز موثقاً، لا يُسمح بالاحتفاظ بالاسم المحجوز
             if (isVipName(visitorName) && !isVipVerified) {
                 visitorName = "";
                 localStorage.removeItem('maardibsa_visitor_name');
@@ -1063,10 +1120,10 @@
             updateBellButton();
             checkJalalSecretState();
             loadDeathsFromCloud();
-            loadVisitorsCountFromCloud();
+            loadVisitorsFromCloud();
             
             if (visitorName) {
-                registerVisitorInCloud(visitorName);
+                registerVisitorInCloud(visitorName, visitorPhoto);
             }
         };
 
@@ -1137,7 +1194,7 @@
             }
         }
 
-        function registerVisitorInCloud(name) {
+        function registerVisitorInCloud(name, photo = "") {
             if (!name) return;
             const visitorIdKey = 'maardibsa_visitor_id';
             let visitorId = localStorage.getItem(visitorIdKey);
@@ -1147,22 +1204,87 @@
                 localStorage.setItem(visitorIdKey, visitorId);
             }
 
+            const currentVip = isVipName(name) && isVipVerified;
+
             db.collection("registered_visitors").doc(visitorId).set({
                 name: name,
+                photo: photo || "",
+                isVip: currentVip,
                 updatedAt: firebase.firestore.FieldValue.serverTimestamp()
             }, { merge: true }).catch(err => console.log(err));
         }
 
-        function loadVisitorsCountFromCloud() {
+        function loadVisitorsFromCloud() {
             db.collection("registered_visitors").onSnapshot((snapshot) => {
-                const totalCount = snapshot.size;
+                let list = [];
+                snapshot.forEach((doc) => {
+                    let data = doc.data();
+                    if (data && data.name) {
+                        list.push({
+                            id: doc.id,
+                            name: data.name,
+                            photo: data.photo || "",
+                            isVip: data.isVip === true || isVipName(data.name)
+                        });
+                    }
+                });
+
+                list.sort((a, b) => {
+                    if (a.isVip && !b.isVip) return -1;
+                    if (!a.isVip && b.isVip) return 1;
+                    return a.name.localeCompare(b.name, 'ar');
+                });
+
+                registeredVisitorsList = list;
                 const counterEl = document.getElementById('totalRegisteredVisitorsCounter');
                 if (counterEl) {
-                    counterEl.innerText = totalCount + " زائر مسجل";
+                    counterEl.innerText = list.length + " زائر مسجل";
+                }
+
+                if (document.getElementById('visitorsModal').style.display === 'flex') {
+                    renderVisitorsModalList();
                 }
             }, (err) => {
                 console.log(err);
             });
+        }
+
+        function openVisitorsModal() {
+            renderVisitorsModalList();
+            document.getElementById('visitorsModal').style.display = 'flex';
+        }
+
+        function closeVisitorsModal() {
+            document.getElementById('visitorsModal').style.display = 'none';
+        }
+
+        function renderVisitorsModalList() {
+            const container = document.getElementById('visitorsListModalBody');
+            if (!container) return;
+
+            if (!registeredVisitorsList.length) {
+                container.innerHTML = `<p style="text-align:center; color:#666; padding:12px;">لا يوجد زوار مسجلون بعد.</p>`;
+                return;
+            }
+
+            let html = '';
+            registeredVisitorsList.forEach((v) => {
+                const isVip = v.isVip || isVipName(v.name);
+                const avatarHtml = renderAvatarHtml(v.name, v.photo, isVip);
+                const nameHtml = isVip
+                    ? `<span class="vip-author-name">🕊️ ${v.name}</span>`
+                    : `<span style="font-weight:700; color:var(--primary-color);">${v.name}</span>`;
+
+                html += `
+                    <div class="visitor-row-card ${isVip ? 'vip-row' : ''}">
+                        ${avatarHtml}
+                        <div style="min-width:0; flex:1;">
+                            ${nameHtml}
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
         }
 
         function checkJalalSecretState() {
@@ -1204,10 +1326,10 @@
 
         function renderAvatarHtml(name, photoUrl, isVip) {
             const glowClass = isVip ? 'vip-avatar-glow' : '';
-            if (photoUrl) {
-                return `<img src="${photoUrl}" class="comment-avatar ${glowClass}" alt="${name}">`;
-            }
             const firstLetter = name ? name.trim().charAt(0) : '👤';
+            if (photoUrl && String(photoUrl).trim().startsWith('data:image')) {
+                return `<img src="${photoUrl}" class="comment-avatar ${glowClass}" alt="${name}" onerror="this.outerHTML='<div class=\\'comment-avatar-fallback ${glowClass}\\'>${firstLetter}</div>'">`;
+            }
             return `<div class="comment-avatar-fallback ${glowClass}">${firstLetter}</div>`;
         }
 
@@ -1245,12 +1367,13 @@
                   let html = '';
                   mainComments.forEach((c) => {
                       let cIsVip = isVipName(c.name) || c.isVip === true;
+                      let effectivePhoto = c.photo || ((visitorName && c.name === visitorName && visitorPhoto) ? visitorPhoto : "");
                       let showDelete = (visitorName && c.name === visitorName) || isAdminLoggedIn;
                       let deleteBtnHtml = showDelete ? `<button class="delete-comm-btn" onclick="deleteCloudCondolence('${c.commentId}')">حذف</button>` : '';
-                      let avatarHtml = renderAvatarHtml(c.name, c.photo, cIsVip);
+                      let avatarHtml = renderAvatarHtml(c.name, effectivePhoto, cIsVip);
                       let timeStr = formatCommentTime(c.timestamp);
                       let nameDisplay = cIsVip
-                          ? `<span class="vip-author-name">🕊️ ${c.name} <span class="vip-badge">مؤسس الأرشيف</span></span>`
+                          ? `<span class="vip-author-name">🕊️ ${c.name}</span>`
                           : `<b>${c.name}</b>`;
 
                       let commentReplies = replies.filter(r => r.parentId === c.commentId);
@@ -1258,18 +1381,19 @@
                       
                       commentReplies.forEach(r => {
                           let rIsVip = isVipName(r.name) || r.isVip === true;
+                          let effectiveReplyPhoto = r.photo || ((visitorName && r.name === visitorName && visitorPhoto) ? visitorPhoto : "");
                           let showReplyDelete = (visitorName && r.name === visitorName) || isAdminLoggedIn;
                           let deleteReplyBtn = showReplyDelete ? `<button class="delete-comm-btn" onclick="deleteCloudCondolence('${r.commentId}')" style="font-size:0.68rem; padding:2px 6px;">حذف</button>` : '';
-                          let replyAvatar = renderAvatarHtml(r.name, r.photo, rIsVip);
+                          let replyAvatar = renderAvatarHtml(r.name, effectiveReplyPhoto, rIsVip);
                           let replyTime = formatCommentTime(r.timestamp);
                           let replyNameDisplay = rIsVip
-                              ? `<span class="vip-author-name" style="font-size:1rem;">🕊️ ${r.name} <span class="vip-badge">مؤسس الأرشيف</span></span>`
+                              ? `<span class="vip-author-name" style="font-size:1.05rem;">🕊️ ${r.name}</span>`
                               : `<b>${r.name}</b>`;
 
                           repliesHtml += `
-                              <div style="background: ${rIsVip ? '#fffdf7' : '#f1f3f5'}; padding: 8px 10px; border-radius: 8px; margin-top: 8px; margin-right: 16px; border-right: 3px solid ${rIsVip ? '#d4af37' : 'var(--primary-color)'}; font-size: 0.9rem;">
-                                  <div style="display:flex; justify-content:space-between; align-items:center; gap:6px;">
-                                      <div style="display:flex; align-items:center; gap:8px;">
+                              <div style="background: ${rIsVip ? '#fffdf7' : '#f1f3f5'}; padding: 8px 10px; border-radius: 8px; margin-top: 8px; margin-right: 12px; border-right: 3px solid ${rIsVip ? '#d4af37' : 'var(--primary-color)'}; font-size: 0.9rem;">
+                                  <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
+                                      <div style="display:flex; align-items:center; gap:8px; min-width:0; flex:1 1 auto;">
                                           ${replyAvatar}
                                           <div>
                                               ${replyNameDisplay}
@@ -1278,7 +1402,7 @@
                                       </div>
                                       ${deleteReplyBtn}
                                   </div>
-                                  <p style="margin-top:5px; color:#333; padding-right:46px;">${r.text}</p>
+                                  <p style="margin-top:6px; color:#333; padding-right:6px;">${r.text}</p>
                               </div>
                           `;
                       });
@@ -1298,13 +1422,13 @@
                                       ${deleteBtnHtml}
                                   </div>
                               </div>
-                              <p style="margin: 8px 0 4px 0; color: #2b2b2b; padding-right: 48px;">${c.text}</p>
+                              <p style="margin: 8px 0 4px 0; color: #2b2b2b; padding-right: 6px;">${c.text}</p>
                               
                               <div style="margin-top: 5px;">${repliesHtml}</div>
 
                               <div class="reply-box-container" id="replyBox_${c.commentId}">
-                                  <input type="text" id="replyText_${c.commentId}" placeholder="اكتب رداً أو تعقيباً..." style="flex:1; padding: 7px 10px; border: 1px solid #ced4da; border-radius: 6px; font-size: 0.85rem;">
-                                  <button onclick="addReplyToComment('${personId}', '${c.commentId}')" style="background: var(--secondary-color); color: white; border: none; padding: 7px 14px; border-radius: 6px; font-size: 0.85rem; cursor: pointer; font-weight: bold;">إرسال</button>
+                                  <input type="text" id="replyText_${c.commentId}" placeholder="اكتب رداً أو تعقيباً..." style="flex:1; min-width:0; padding: 7px 10px; border: 1px solid #ced4da; border-radius: 6px; font-size: 0.85rem;">
+                                  <button onclick="addReplyToComment('${personId}', '${c.commentId}')" style="background: var(--secondary-color); color: white; border: none; padding: 7px 14px; border-radius: 6px; font-size: 0.85rem; cursor: pointer; font-weight: bold; white-space: nowrap; flex-shrink: 0;">إرسال</button>
                               </div>
                           </div>
                       `;
@@ -1784,14 +1908,17 @@
                 return;
             }
 
-            // التحقق من الكود السري الخاص بمؤسس الأرشيف أو دخول المشرف
-            if (rawInput === VIP_SECRET_CODE || (isVipName(rawInput) && (isVipVerified || isAdminLoggedIn))) {
+            if (isVipName(rawInput)) {
+                if (!isVipVerified && !isAdminLoggedIn) {
+                    const secretCheck = prompt('هذا الاسم محجوز لصاحب الأرشيف. أدخل كلمة مرور المشرف لتأكيد هويتك:');
+                    if (secretCheck !== 'nayler89') {
+                        alert('كلمة المرور غير صحيحة، لا يمكن استخدام هذا الاسم.');
+                        return;
+                    }
+                }
                 visitorName = VIP_DISPLAY_NAME;
                 isVipVerified = true;
                 localStorage.setItem('maardibsa_vip_verified', 'true');
-            } else if (isVipName(rawInput)) {
-                alert('عذراً، هذا الاسم محجوز لمؤسس الأرشيف ولا يمكن استخدامه.');
-                return;
             } else {
                 visitorName = rawInput;
                 isVipVerified = false;
@@ -1803,7 +1930,7 @@
             localStorage.setItem('maardibsa_visitor_name', visitorName);
             localStorage.setItem('maardibsa_visitor_photo', visitorPhoto);
 
-            registerVisitorInCloud(visitorName);
+            registerVisitorInCloud(visitorName, visitorPhoto);
 
             checkSecretActivation(visitorName);
             updateVisitorBanner();
@@ -1820,8 +1947,8 @@
 
             if (visitorName) {
                 if (vipActive) {
-                    nameEl.innerHTML = `<span class="vip-author-name">🕊️ ${visitorName} <span class="vip-badge">مؤسس الأرشيف</span></span>`;
-                    statusEl.innerText = "حساب مؤسس الأرشيف الموثق";
+                    nameEl.innerHTML = `<span class="vip-author-name">🕊️ ${visitorName}</span>`;
+                    statusEl.innerText = "حساب موثق";
                     avatarEl.classList.add('vip-avatar-glow');
                     placeholderEl.classList.add('vip-avatar-glow');
                 } else {
