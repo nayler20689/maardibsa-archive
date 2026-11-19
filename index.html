@@ -1192,35 +1192,38 @@ function loadCloudCondolencesForPerson(personId) {
             });
         }
 
-        function renderLatestAnnouncement() {
-            const announcementEl = document.getElementById('latest-announcement');
-            const latest = deathsData.find(d => d.isAnnouncement === true);
+      function renderLatestAnnouncement() {
+    const announcementEl = document.getElementById('latest-announcement');
+    const latest = deathsData.find(d => d.isAnnouncement === true);
 
-            if (!latest) {
-                announcementEl.innerHTML = `
-                    <div class="latest-card">
-                        <p style="text-align: center; color: #666; padding: 10px;">لا توجد حالات وفاة جديدة معلنة حالياً. بانتظار إضافة أحدث حالة وفاة من لوحة المشرف.</p>
-                    </div>
-                `;
-                return;
-            }
+    if (!latest) {
+        announcementEl.innerHTML = `
+            <div class="latest-card">
+                <p style="text-align: center; color: #666; padding: 10px;">لا توجد حالات وفاة جديدة معلنة حالياً. بانتظار إضافة أحدث حالة وفاة من لوحة المشرف.</p>
+            </div>
+        `;
+        return;
+    }
 
-            let pId = latest.docId || latest.id;
-            const fullDate = getFullDeathDate(latest);
-            announcementEl.innerHTML = `
-                <div class="latest-card">
-                    <div class="latest-flex">
-                        <div>
-                            <h3 style="color: var(--primary-color);">انتقل إلى رحمة الله تعالى</h3>
-                            <p style="font-size: 1.05rem;"><b>الاسم:</b> ${latest.name}</p>
-                            <p style="font-size: 0.95rem;"><b>تاريخ الوفاة:</b> ${fullDate}</p>
-                            <p style="color: #b7094c; font-weight: bold;"><b>${latest.details}</b></p>
-                            <button class="go-to-profile-announcement-btn" onclick="openPersonProfile('${pId}')">🕊️ الدخول إلى ديوان العزاء وغرفة المراسلة</button>
-                        </div>
-                    </div>
+    let pId = latest.docId || latest.id;
+    const fullDate = getFullDeathDate(latest);
+    const noteText = String(latest.notes || '').trim();
+
+    announcementEl.innerHTML = `
+        <div class="latest-card">
+            <div class="latest-flex">
+                <div>
+                    <h3 style="color: var(--primary-color);">انتقل إلى رحمة الله تعالى</h3>
+                    <p style="font-size: 1.05rem;"><b>الاسم:</b> ${latest.name}</p>
+                    <p style="font-size: 0.95rem;"><b>تاريخ الوفاة:</b> ${fullDate}</p>
+                    <p style="color: #b7094c; font-weight: bold;"><b>${latest.details || ''}</b></p>
+                    ${noteText ? `<p style="font-size: 0.92rem; color: #1f5c34; margin-top: 4px;"><b>ملاحظة:</b> ${noteText}</p>` : ''}
+                    <button class="go-to-profile-announcement-btn" onclick="openPersonProfile('${pId}')">🕊️ الدخول إلى ديوان العزاء وغرفة المراسلة</button>
                 </div>
-            `;
-        }
+            </div>
+        </div>
+    `;
+}
 
        function renderRecords() {
     const listEl = document.getElementById('records-list');
@@ -1450,32 +1453,33 @@ let rawDate = rawDateCol4 || (cols[1] ? cols[1].replace(/["']/g, "").trim() : "�
             reader.readAsText(file, 'UTF-8');
         }
 
-        function publishAnnouncement() {
-            const name = document.getElementById('new-name').value.trim();
-            const category = document.getElementById('new-category').value;
-            const fullDateInput = document.getElementById('new-date').value.trim() || 'حديثاً';
-            const yearMatch = fullDateInput.match(/\b(19\d{2}|20\d{2})\b/);
-            const year = yearMatch ? yearMatch[0] : fullDateInput;
-            const prayer = document.getElementById('new-prayer-time').value;
-            const details = document.getElementById('new-details').value.trim();
+       function publishAnnouncement() {
+    const name = document.getElementById('new-name').value.trim();
+    const category = document.getElementById('new-category').value;
+    const fullDateInput = document.getElementById('new-date').value.trim() || 'حديثاً';
+    const yearMatch = fullDateInput.match(/\b(19\d{2}|20\d{2})\b/);
+    const year = yearMatch ? yearMatch[0] : fullDateInput;
+    const prayer = document.getElementById('new-prayer-time').value;
+    const details = document.getElementById('new-details').value.trim();
 
-            if (!name) {
-                alert('يرجى إدخال اسم المتوفى');
-                return;
-            }
+    if (!name) {
+        alert('يرجى إدخال اسم المتوفى');
+        return;
+    }
 
-            db.collection("deaths_archive").add({
-                name: name,
-                fullDate: fullDateInput,
-                year: year,
-                category: category,
-                details: `تاريخ الوفاة: ${fullDateInput}\nموعد الصلاة: ${prayer}\n${details}`,
-                isAnnouncement: true,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            }).then(() => {
-                alert('تم نشر إعلان الوفاة بنجاح في السحاب!');
-            });
-        }
+    db.collection("deaths_archive").add({
+        name: name,
+        fullDate: fullDateInput,
+        year: year,
+        category: category,
+        details: prayer ? `موعد الصلاة: ${prayer}` : `تاريخ الوفاة: ${fullDateInput}`,
+        notes: details,
+        isAnnouncement: true,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(() => {
+        alert('تم نشر إعلان الوفاة بنجاح في السحاب!');
+    });
+}
 
         function addOldRecordOnly() {
             const name = document.getElementById('new-name').value.trim();
