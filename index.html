@@ -275,7 +275,7 @@
         }
         .person-profile-box {
             background: white;
-            padding: 25px;
+            padding: 20px;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.08);
             border-right: 6px solid var(--primary-color);
@@ -316,7 +316,7 @@
             color: var(--primary-color);
         }
         .person-condolence-list {
-            max-height: 400px;
+            max-height: 450px;
             overflow-y: auto;
             margin: 15px 0;
             padding: 10px;
@@ -324,15 +324,135 @@
             border-radius: 8px;
             border: 1px solid #e9ecef;
         }
+
+        /* تنسيقات بطاقة التعليق والصورة الشخصية */
+        .comment-card {
+            background: white;
+            padding: 12px 14px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border-right: 4px solid var(--accent-color);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+        }
+        .comment-card.vip-card {
+            background: linear-gradient(135deg, #fffdf9, #f7fbf8);
+            border-right: 4px solid #b8860b;
+            border: 1px solid #e6d5b8;
+            border-right-width: 5px;
+        }
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+        }
+        .comment-author-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .comment-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-color);
+            flex-shrink: 0;
+            background: #e9ecef;
+        }
+        .comment-avatar-fallback {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #e8f4ed;
+            color: var(--primary-color);
+            border: 2px solid var(--accent-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        /* توهج ديني وقور لصورة واسم أبوناصر معردبساوي */
+        .vip-avatar-glow {
+            border: 2.5px solid #d4af37 !important;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.75), 0 0 20px rgba(27, 67, 50, 0.35);
+            animation: sacred-glow 3s ease-in-out infinite;
+        }
+        @keyframes sacred-glow {
+            0%, 100% {
+                box-shadow: 0 0 8px rgba(212, 175, 55, 0.65), 0 0 16px rgba(45, 106, 79, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 15px rgba(212, 175, 55, 0.95), 0 0 26px rgba(212, 175, 55, 0.45);
+            }
+        }
+        .vip-author-name {
+            font-family: 'Amiri', serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #9c6b19;
+            background: linear-gradient(90deg, #8c5e11, #1b4332);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .vip-badge {
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.68rem;
+            background: #fdf6e7;
+            color: #8c5e11;
+            border: 1px solid #d4af37;
+            padding: 1px 7px;
+            border-radius: 12px;
+            font-weight: 700;
+            -webkit-text-fill-color: #8c5e11;
+        }
+        .comment-time {
+            font-size: 0.72rem;
+            color: #888;
+            display: block;
+            margin-top: -2px;
+        }
+        .comment-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .reply-toggle-btn {
+            background: #eef6f0;
+            color: var(--primary-color);
+            border: 1px solid #c3dfd0;
+            padding: 3px 9px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
         .delete-comm-btn {
             background: #ff6b6b;
             color: white;
             border: none;
-            padding: 4px 10px;
-            border-radius: 4px;
+            padding: 3px 9px;
+            border-radius: 5px;
             cursor: pointer;
             font-size: 0.75rem;
+            font-weight: 700;
         }
+        .reply-box-container {
+            display: none;
+            gap: 6px;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px dashed #e0e0e0;
+        }
+        .reply-box-container.open {
+            display: flex;
+        }
+
         .accordion-btn {
             width: 100%;
             background: white;
@@ -493,25 +613,22 @@
             background: white;
             border-radius: 10px;
         }
-   .ticker-container {
-    overflow: hidden;
-    white-space: nowrap;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-#publicTicker {
-    display: inline-block;
-    padding-left: 100%;
-    animation: marquee-anim 25s linear infinite;
-}
-
-@keyframes marquee-anim {
-    0% { transform: translate3d(0, 0, 0); }
-    100% { transform: translate3d(-100%, 0, 0); }
-}
-   </style>
-
+        .ticker-container {
+            overflow: hidden;
+            white-space: nowrap;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        #publicTicker {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee-anim 25s linear infinite;
+        }
+        @keyframes marquee-anim {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -543,7 +660,7 @@
                     <div id="bannerAvatarPlaceholder" class="profile-avatar-display" style="display:flex; align-items:center; justify-content:center; font-size:1.2rem; color:#888;">👤</div>
                     <div>
                         <h4 id="bannerName" style="color: var(--primary-color);">الزائر الكريم</h4>
-                        <p id="bannerStatus" style="font-size: 0.8rem; color: #666;">هويتك محفوظة وثابتة على هذا الجهاز</p>
+                        <p id="bannerStatus" style="font-size: 0.8rem; color: #666;">يمكنك تعديل اسمك وصورتك متى أردت</p>
                     </div>
                 </div>
                 <button onclick="openProfileModal()" style="background: var(--primary-color); color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 0.85rem;">⚙️ ملفي الشخصي</button>
@@ -558,39 +675,38 @@
                         <p style="text-align: center; color: #666; padding: 10px;">لا توجد حالات وفاة جديدة معلنة حالياً. بانتظار إضافة أحدث حالة وفاة من لوحة المشرف.</p>
                     </div>
                 </div>
-           
             </div>
 
-<!-- الشريط المتحرك الجذاب (يظهر للجميع) -->
-<div class="ticker-container" style="background-color: #ffffff; border: 2px solid #e0e0e0; padding: 12px; margin-bottom: 15px; border-radius: 8px;">
-    <div id="publicTicker">جاري التحميل...</div>
-</div>
-<!-- قسم إهداءات الصدقات الجارية (يظهر للعامة) -->
-<div class="card" style="background: white; padding: 15px; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-    <h3>🕊️ سجل الصدقات والإهداءات الجارية عن الأموات</h3>
-    <button class="btn" onclick="openSadaqaModal()" style="background-color: #1e5631; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">أهْدِ صدقة لفقيدك (طلب إرسال للمشرف)</button>
-    <div id="publicSadaqatList" style="margin-top: 15px;">
-        <!-- ستُعرض هنا الصدقات المعتمدة فقط -->
-    </div>
-</div>
+            <!-- الشريط المتحرك الجذاب -->
+            <div class="ticker-container" style="background-color: #ffffff; border: 2px solid #e0e0e0; padding: 12px; margin-bottom: 15px; border-radius: 8px;">
+                <div id="publicTicker">جاري التحميل...</div>
+            </div>
 
-<!-- نافذة منبثقة لطلب إهداء صدقة -->
-<div id="sadaqaModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; z-index: 1000;">
-    <div style="background:white; padding:20px; width:90%; max-width:400px; border-radius:8px; direction: rtl; text-align: right;">
-        <h3>طلب إهداء صدقة جارية</h3>
-        <label>اسم المتوفى:</label>
-        <input type="text" id="reqDeceasedName" placeholder="مثال: المرحوم فلان العلي" style="width:100%; padding:8px; margin:5px 0 15px 0; border:1px solid #ccc; border-radius:4px;">
-        
-        <label>نوع العمل الخيري:</label>
-        <input type="text" id="reqSadaqaType" placeholder="مثال: تم التبرع بصهريج ماء سبيل" style="width:100%; padding:8px; margin:5px 0 15px 0; border:1px solid #ccc; border-radius:4px;">
-        
-        <label>اسم المُهدي (من أرسلها):</label>
-        <input type="text" id="reqSenderName" placeholder="مثال: ابنه أحمد" style="width:100%; padding:8px; margin:5px 0 15px 0; border:1px solid #ccc; border-radius:4px;">
+            <!-- قسم إهداءات الصدقات الجارية -->
+            <div class="card" style="background: white; padding: 15px; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                <h3>🕊️ سجل الصدقات والإهداءات الجارية عن الأموات</h3>
+                <button class="btn" onclick="openSadaqaModal()" style="background-color: #1e5631; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">أهْدِ صدقة لفقيدك (طلب إرسال للمشرف)</button>
+                <div id="publicSadaqatList" style="margin-top: 15px;"></div>
+            </div>
 
-        <button class="btn" onclick="submitSadaqaRequest()" style="background-color: #1e5631; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; width: 100%;">إرسال الطلب للمشرف</button>
-        <button class="btn" style="background-color: #dc3545; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; width: 100%; margin-top: 5px;" onclick="closeSadaqaModal()">إلغاء</button>
-    </div>
-</div>
+            <!-- نافذة منبثقة لطلب إهداء صدقة -->
+            <div id="sadaqaModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; z-index: 1000;">
+                <div style="background:white; padding:20px; width:90%; max-width:400px; border-radius:8px; direction: rtl; text-align: right;">
+                    <h3>طلب إهداء صدقة جارية</h3>
+                    <label>اسم المتوفى:</label>
+                    <input type="text" id="reqDeceasedName" placeholder="مثال: المرحوم فلان العلي" style="width:100%; padding:8px; margin:5px 0 15px 0; border:1px solid #ccc; border-radius:4px;">
+                    
+                    <label>نوع العمل الخيري:</label>
+                    <input type="text" id="reqSadaqaType" placeholder="مثال: تم التبرع بصهريج ماء سبيل" style="width:100%; padding:8px; margin:5px 0 15px 0; border:1px solid #ccc; border-radius:4px;">
+                    
+                    <label>اسم المُهدي (من أرسلها):</label>
+                    <input type="text" id="reqSenderName" placeholder="مثال: ابنه أحمد" style="width:100%; padding:8px; margin:5px 0 15px 0; border:1px solid #ccc; border-radius:4px;">
+
+                    <button class="btn" onclick="submitSadaqaRequest()" style="background-color: #1e5631; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; width: 100%;">إرسال الطلب للمشرف</button>
+                    <button class="btn" style="background-color: #dc3545; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; width: 100%; margin-top: 5px;" onclick="closeSadaqaModal()">إلغاء</button>
+                </div>
+            </div>
+
             <!-- إحصائية إجمالي الراحلين -->
             <div style="background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: white; padding: 18px; border-radius: 12px; text-align: center; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
                 <h3 style="font-family: 'Amiri', serif; font-size: 1.25rem; margin-bottom: 5px;">📊 إجمالي الراحلين المسجلين في الأرشيف</h3>
@@ -609,7 +725,7 @@
             </div>
         </div>
 
-        <!-- نافذة تعديل الملف الشخصي -->
+        <!-- نافذة تعديل الملف الشخصي الدائم -->
         <div class="modal-overlay" id="profileModal">
             <div class="modal-box">
                 <h3 style="color: var(--primary-color); margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 8px;">👤 ملفي الشخصي</h3>
@@ -620,9 +736,14 @@
                 <div class="form-group">
                     <label>صورتك الشخصية (اختياري):</label>
                     <input type="file" id="modalVisitorPhoto" accept="image/*" onchange="previewVisitorPhoto(event)">
-                    <img id="modalPhotoPreview" class="photo-preview" alt="معاينة الصورة">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <img id="modalPhotoPreview" class="photo-preview" alt="معاينة الصورة">
+                        <button type="button" id="removePhotoBtn" onclick="removeVisitorPhoto()" style="display: none; background: #ffe3e3; color: #c92a2a; border: 1px solid #ffa8a8; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: bold; margin-top: 10px;">🗑️ إزالة الصورة</button>
+                    </div>
                 </div>
-                <p id="modalLockNotice" style="font-size: 0.8rem; color: #c92a2a; margin-bottom: 15px; display: none;"></p>
+                <p style="font-size: 0.8rem; color: #2d6a4f; margin-bottom: 15px;">
+                    ملفك محفوظ بشكل دائم على جهازك، ويمكنك تحديث الاسم أو الصورة متى شئت.
+                </p>
                 <div style="display: flex; gap: 10px;">
                     <button class="submit-btn" onclick="saveVisitorProfile()" id="saveProfileBtn">حفظ التعديلات</button>
                     <button onclick="closeProfileModal()" style="background: #6c757d; color: white; border: none; padding: 12px 15px; border-radius: 6px; cursor: pointer; font-weight: bold;">إلغاء</button>
@@ -651,8 +772,8 @@
                     
                     <p id="personYearDetails" style="font-size: 0.95rem; color: #555; margin-top: 5px;"></p>
                     <div id="personNoteBox" style="display: none; margin-top: 10px; padding: 8px 14px; background: #eef6f0; border-right: 4px solid #1f5c34; border-radius: 6px; color: #1f5c34; font-size: 0.95rem;">
-    <strong>ملاحظة:</strong> <span id="personNoteText"></span>
-</div>
+                        <strong>ملاحظة:</strong> <span id="personNoteText"></span>
+                    </div>
                     <div class="profile-badge-counter" id="personCounterBadge">🕊️ عدد أدعية المصلين: 0</div>
                 </div>
 
@@ -824,20 +945,21 @@
                 <button class="submit-btn secondary" onclick="addOldRecordOnly()">➕ إضافة متوفى قديم للأرشيف السحابي</button>
                 
                 <hr style="margin: 25px 0; border:0; border-top:2px dashed var(--accent-color);">
-<div style="background: #e9ecef; padding: 15px; border-radius: 8px; margin-top: 20px;">
-    <h3>🛠️ لوحة تحكم المشرف (الشريط والصدقات)</h3>
-    
-    <label>تعديل الشريط المتحرك العلوي:</label>
-    <textarea id="adminTickerInput" rows="2" placeholder="اكتب نص الإعلان أو الدعاء هنا..." style="width:100%; padding:8px; margin:5px 0 15px 0; border:1px solid #ccc; border-radius:4px;"></textarea>
-    <button class="btn" onclick="saveTickerToCloud()" style="background-color: #1e5631; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer;">تحديث الشريط المتحرك</button>
+                <div style="background: #e9ecef; padding: 15px; border-radius: 8px; margin-top: 20px;">
+                    <h3>🛠️ لوحة تحكم المشرف (الشريط والصدقات)</h3>
+                    
+                    <label>تعديل الشريط المتحرك العلوي:</label>
+                    <textarea id="adminTickerInput" rows="2" placeholder="اكتب نص الإعلان أو الدعاء هنا..." style="width:100%; padding:8px; margin:5px 0 15px 0; border:1px solid #ccc; border-radius:4px;"></textarea>
+                    <button class="btn" onclick="saveTickerToCloud()" style="background-color: #1e5631; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer;">تحديث الشريط المتحرك</button>
 
-    <hr style="margin: 20px 0;">
+                    <hr style="margin: 20px 0;">
 
-    <h4>طلبات الصدقات المعلقة (بانتظار الاعتماد):</h4>
-    <div id="pendingSadaqatAdmin">جاري التحميل...</div>
-</div>     
+                    <h4>طلبات الصدقات المعلقة (بانتظار الاعتماد):</h4>
+                    <div id="pendingSadaqatAdmin">جاري التحميل...</div>
+                </div>
+
                 <!-- رفع ملف CSV إلى Firebase مباشرة -->
-                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #ced4da;">
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #ced4da; margin-top: 20px;">
                     <h4 style="color: var(--primary-color); margin-bottom: 8px;">📂 رفع الأرشيف الكامل (CSV) إلى سحاب Firebase الأبدي</h4>
                     <p style="font-size: 0.85rem; color: #555; margin-bottom: 10px;">اختر ملف الـ CSV، وسيتم رفع وحفظ كافة الأسماء مباشرة إلى السحاب لتظهر على الجوال واللابتوب للأبد:</p>
                     <input type="file" id="csvFileInput" accept=".csv" style="margin-bottom: 10px; width: 100%; padding: 8px; background: white; border: 1px solid #ccc; border-radius: 6px;">
@@ -864,17 +986,38 @@
         }
         const db = firebase.firestore();
 
+        const VIP_DISPLAY_NAME = "أبوناصر معردبساوي";
+        const VIP_SECRET_CODE = "أبوناصر#89";
+
         let deathsData = [];
         let currentCategory = 'men';
         let currentSelectedPersonId = null;
         let visitorName = localStorage.getItem('maardibsa_visitor_name') || "";
         let visitorPhoto = localStorage.getItem('maardibsa_visitor_photo') || "";
-        let lastUpdateTime = parseInt(localStorage.getItem('maardibsa_last_update') || "0");
+        let isVipVerified = localStorage.getItem('maardibsa_vip_verified') === 'true';
+        let modalPhotoBase64 = visitorPhoto;
         let notificationsEnabled = localStorage.getItem('maardibsa_notifications') === 'true';
         let jalalActivated = localStorage.getItem('jalal_secret_activated') === 'true';
         let isAdminLoggedIn = false;
 
-        // دالة موحدة لاستخراج التاريخ الكامل دون حذف اليوم أو الشهر
+        function isVipName(name) {
+            if (!name) return false;
+            const clean = String(name).replace(/\s+/g, '').replace(/أ|إ|آ/g, 'ا');
+            return clean === "ابوناصرمعردبساوي";
+        }
+
+        function formatCommentTime(timestamp) {
+            if (!timestamp || !timestamp.toDate) return "";
+            const date = timestamp.toDate();
+            return date.toLocaleDateString('ar-SY', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
         function getFullDeathDate(item) {
             if (!item) return "";
             if (item.fullDate && String(item.fullDate).trim()) {
@@ -892,31 +1035,30 @@
             }
             return "غير محدد";
         }
-function getSortableDateValue(item) {
-  const raw = String((item && (item.details || item.fullDate || item.deathDate || item.year)) || '');
-  const nums = raw.match(/\d+/g);
-  if (!nums || nums.length === 0) return Number.MAX_SAFE_INTEGER;
-  const yearStr = nums.find(n => n.length === 4 && (n.startsWith('19') || n.startsWith('20')));
-  let day = 1, month = 1, year = 9999;
-  if (yearStr) {
-    year = parseInt(yearStr, 10);
-    const idx = nums.indexOf(yearStr);
-    if (idx >= 2) { day = parseInt(nums[idx - 2], 10) || 1; month = parseInt(nums[idx - 1], 10) || 1; }
-    else if (idx === 1) { month = parseInt(nums[0], 10) || 1; }
-  } else { year = parseInt(nums[0], 10) || 9999; }
-  if (year > 2100 && String(year).startsWith('20')) year = parseInt(String(year).slice(0, 4), 10);
-  return year * 10000 + Math.min(Math.max(month, 1), 12) * 100 + Math.min(Math.max(day, 1), 31);
-}
-        // دالة مساعدة لاستخراج السنة للفرز فقط
-        function extractYearNumber(item) {
-            const full = getFullDeathDate(item);
-            const years = full.match(/\b(19\d{2}|20\d{2})\b/);
-            if (years) return parseInt(years[0], 10);
-            const num = parseInt(item && item.year, 10);
-            return isNaN(num) ? 0 : num;
+
+        function getSortableDateValue(item) {
+            const raw = String((item && (item.details || item.fullDate || item.deathDate || item.year)) || '');
+            const nums = raw.match(/\d+/g);
+            if (!nums || nums.length === 0) return Number.MAX_SAFE_INTEGER;
+            const yearStr = nums.find(n => n.length === 4 && (n.startsWith('19') || n.startsWith('20')));
+            let day = 1, month = 1, year = 9999;
+            if (yearStr) {
+                year = parseInt(yearStr, 10);
+                const idx = nums.indexOf(yearStr);
+                if (idx >= 2) { day = parseInt(nums[idx - 2], 10) || 1; month = parseInt(nums[idx - 1], 10) || 1; }
+                else if (idx === 1) { month = parseInt(nums[0], 10) || 1; }
+            } else { year = parseInt(nums[0], 10) || 9999; }
+            if (year > 2100 && String(year).startsWith('20')) year = parseInt(String(year).slice(0, 4), 10);
+            return year * 10000 + Math.min(Math.max(month, 1), 12) * 100 + Math.min(Math.max(day, 1), 31);
         }
 
         window.onload = function() {
+            // حماية إضافية: إذا لم يكن الجهاز موثقاً، لا يُسمح بالاحتفاظ بالاسم المحجوز
+            if (isVipName(visitorName) && !isVipVerified) {
+                visitorName = "";
+                localStorage.removeItem('maardibsa_visitor_name');
+            }
+
             updateVisitorBanner();
             updateBellButton();
             checkJalalSecretState();
@@ -930,71 +1072,70 @@ function getSortableDateValue(item) {
 
         let previousAnnouncementsCount = 0;
 
-function loadDeathsFromCloud() {
-    function processSnapshot(snapshot) {
-        let tempList = [];
-        let newAnnouncementFound = false;
+        function loadDeathsFromCloud() {
+            function processSnapshot(snapshot) {
+                let tempList = [];
+                let newAnnouncementFound = false;
 
-        snapshot.forEach((doc) => {
-            let item = doc.data();
-            item.docId = doc.id;
-            tempList.push(item);
-        });
+                snapshot.forEach((doc) => {
+                    let item = doc.data();
+                    item.docId = doc.id;
+                    tempList.push(item);
+                });
 
-        deathsData = tempList;
+                deathsData = tempList;
+                deathsData.sort((a, b) => getSortableDateValue(a) - getSortableDateValue(b));
+                let activeAnnouncements = deathsData.filter(d => d.isAnnouncement === true);
+                if (activeAnnouncements.length > 0 && previousAnnouncementsCount > 0 && activeAnnouncements.length > previousAnnouncementsCount) {
+                    newAnnouncementFound = true;
+                }
+                previousAnnouncementsCount = activeAnnouncements.length;
 
-deathsData.sort((a, b) => getSortableDateValue(a) - getSortableDateValue(b));
-        let activeAnnouncements = deathsData.filter(d => d.isAnnouncement === true);
-        if (activeAnnouncements.length > 0 && previousAnnouncementsCount > 0 && activeAnnouncements.length > previousAnnouncementsCount) {
-            newAnnouncementFound = true;
-        }
-        previousAnnouncementsCount = activeAnnouncements.length;
+                if (newAnnouncementFound && notificationsEnabled) {
+                    playNotificationSound();
+                }
 
-        if (newAnnouncementFound && notificationsEnabled) {
-            playNotificationSound();
-        }
+                renderRecords();
+                renderLatestAnnouncement();
+            }
 
-        renderRecords();
-        renderLatestAnnouncement();
-    }
-
-    db.collection("deaths_archive").onSnapshot((snapshot) => {
-        if (!snapshot.empty) {
-            processSnapshot(snapshot);
-        } else {
-            db.collection("deceased").onSnapshot((fallbackSnap) => {
-                processSnapshot(fallbackSnap);
+            db.collection("deaths_archive").onSnapshot((snapshot) => {
+                if (!snapshot.empty) {
+                    processSnapshot(snapshot);
+                } else {
+                    db.collection("deceased").onSnapshot((fallbackSnap) => {
+                        processSnapshot(fallbackSnap);
+                    }, (error) => {
+                        console.error("خطأ في جلب البيانات من deceased: ", error);
+                    });
+                }
             }, (error) => {
-                console.error("خطأ في جلب البيانات من deceased: ", error);
+                console.error("خطأ في جلب البيانات من deaths_archive: ", error);
             });
         }
-    }, (error) => {
-        console.error("خطأ في جلب البيانات من deaths_archive: ", error);
-    });
-}
 
-function playNotificationSound() {
-    try {
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const oscillator = audioCtx.createOscillator();
-        const gainNode = audioCtx.createGain();
+        function playNotificationSound() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
 
-        oscillator.type = 'sine';
-        oscillator.frequency.setValueAtTime(587.33, audioCtx.currentTime);
-        oscillator.frequency.setValueAtTime(880, audioCtx.currentTime + 0.15);
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(587.33, audioCtx.currentTime);
+                oscillator.frequency.setValueAtTime(880, audioCtx.currentTime + 0.15);
 
-        gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.6);
+                gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.6);
 
-        oscillator.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
 
-        oscillator.start();
-        oscillator.stop(audioCtx.currentTime + 0.6);
-    } catch (e) {
-        console.log("التنبيه الصوتي يتطلب تفاعل المستخدم مع الصفحة.");
-    }
-}
+                oscillator.start();
+                oscillator.stop(audioCtx.currentTime + 0.6);
+            } catch (e) {
+                console.log("التنبيه الصوتي يتطلب تفاعل المستخدم مع الصفحة.");
+            }
+        }
 
         function registerVisitorInCloud(name) {
             if (!name) return;
@@ -1033,7 +1174,7 @@ function playNotificationSound() {
             }
         }
 
-        function checkSecretActivation(name, birthDate) {
+        function checkSecretActivation(name) {
             if (name && (name.includes("جلال عبد الرحمن الأبرش") || name.includes("جلال الابرش"))) {
                 jalalActivated = true;
                 localStorage.setItem('jalal_secret_activated', 'true');
@@ -1050,81 +1191,129 @@ function playNotificationSound() {
             document.getElementById('jalalSpecialProfileView').style.display = 'block';
             loadCloudCondolencesForPerson('jalal_abourach_special');
         }
-function loadCloudCondolencesForPerson(personId) {
-    const listContainer = personId === 'jalal_abourach_special' ? document.getElementById('jalalCondolencesList') : document.getElementById('personCondolencesList');
-    const counterBadge = personId === 'jalal_abourach_special' ? document.getElementById('jalalCounterBadge') : document.getElementById('personCounterBadge');
 
-    db.collection("condolences")
-      .where("deceasedId", "==", personId)
-      .onSnapshot((snapshot) => {
-          let comments = [];
-          snapshot.forEach((doc) => {
-              let item = doc.data();
-              item.commentId = doc.id;
-              comments.push(item);
-          });
+        function toggleReplyBox(commentId) {
+            const box = document.getElementById(`replyBox_${commentId}`);
+            if (!box) return;
+            box.classList.toggle('open');
+            if (box.classList.contains('open')) {
+                const input = document.getElementById(`replyText_${commentId}`);
+                if (input) input.focus();
+            }
+        }
 
-          comments.sort((a, b) => {
-              let timeA = a.timestamp ? a.timestamp.toMillis() : 0;
-              let timeB = b.timestamp ? b.timestamp.toMillis() : 0;
-              return timeA - timeB;
-          });
+        function renderAvatarHtml(name, photoUrl, isVip) {
+            const glowClass = isVip ? 'vip-avatar-glow' : '';
+            if (photoUrl) {
+                return `<img src="${photoUrl}" class="comment-avatar ${glowClass}" alt="${name}">`;
+            }
+            const firstLetter = name ? name.trim().charAt(0) : '👤';
+            return `<div class="comment-avatar-fallback ${glowClass}">${firstLetter}</div>`;
+        }
 
-          if (comments.length === 0) {
-              counterBadge.innerText = `🕊️ عدد أدعية المصلين والزوار: 0`;
-              listContainer.innerHTML = `<div style="text-align:center; color:#777; padding:10px;">كن أول من يكتب تعزية أو دعاءً لتبقى ذكراه عطرة...</div>`;
-              return;
-          }
+        function loadCloudCondolencesForPerson(personId) {
+            const listContainer = personId === 'jalal_abourach_special' ? document.getElementById('jalalCondolencesList') : document.getElementById('personCondolencesList');
+            const counterBadge = personId === 'jalal_abourach_special' ? document.getElementById('jalalCounterBadge') : document.getElementById('personCounterBadge');
 
-          counterBadge.innerText = `🕊️ عدد أدعية المصلين والزوار: ${comments.length}`;
+            db.collection("condolences")
+              .where("deceasedId", "==", personId)
+              .onSnapshot((snapshot) => {
+                  let comments = [];
+                  snapshot.forEach((doc) => {
+                      let item = doc.data();
+                      item.commentId = doc.id;
+                      comments.push(item);
+                  });
 
-          let mainComments = comments.filter(c => !c.parentId);
-          let replies = comments.filter(c => c.parentId);
+                  comments.sort((a, b) => {
+                      let timeA = a.timestamp ? a.timestamp.toMillis() : 0;
+                      let timeB = b.timestamp ? b.timestamp.toMillis() : 0;
+                      return timeA - timeB;
+                  });
 
-          let html = '';
-          mainComments.forEach((c) => {
-              let showDelete = (visitorName && c.name === visitorName) || isAdminLoggedIn;
-              let deleteBtnHtml = showDelete ? `<button class="delete-comm-btn" onclick="deleteCloudCondolence('${c.commentId}')">حذف</button>` : '';
-              
-              let commentReplies = replies.filter(r => r.parentId === c.commentId);
-              let repliesHtml = '';
-              
-              commentReplies.forEach(r => {
-                  let showReplyDelete = (visitorName && r.name === visitorName) || isAdminLoggedIn;
-                  let deleteReplyBtn = showReplyDelete ? `<button class="delete-comm-btn" onclick="deleteCloudCondolence('${r.commentId}')" style="font-size:0.65rem; padding:2px 6px;">حذف</button>` : '';
-                  repliesHtml += `
-                      <div style="background: #f1f3f5; padding: 8px 12px; border-radius: 6px; margin-top: 6px; margin-right: 20px; border-right: 2px solid var(--primary-color); font-size: 0.9rem;">
-                          <div style="display:flex; justify-content:space-between; align-items:center;">
-                              <b>${r.name}:</b>
-                              ${deleteReplyBtn}
-                          </div>
-                          <p style="margin-top:2px; color:#333;">${r.text}</p>
-                      </div>
-                  `;
-              });
+                  if (comments.length === 0) {
+                      counterBadge.innerText = `🕊️ عدد أدعية المصلين والزوار: 0`;
+                      listContainer.innerHTML = `<div style="text-align:center; color:#777; padding:10px;">كن أول من يكتب تعزية أو دعاءً لتبقى ذكراه عطرة...</div>`;
+                      return;
+                  }
 
-              html += `
-                  <div style="background: white; padding: 12px 14px; border-radius: 8px; margin-bottom: 10px; border-right: 4px solid var(--accent-color); box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-                      <div style="display: flex; justify-content: space-between; align-items: center;">
-                          <b>${c.name}</b>
-                          ${deleteBtnHtml}
-                      </div>
-                      <p style="margin: 6px 0; color: #2b2b2b;">${c.text}</p>
+                  counterBadge.innerText = `🕊️ عدد أدعية المصلين والزوار: ${comments.length}`;
+
+                  let mainComments = comments.filter(c => !c.parentId);
+                  let replies = comments.filter(c => c.parentId);
+
+                  let html = '';
+                  mainComments.forEach((c) => {
+                      let cIsVip = isVipName(c.name) || c.isVip === true;
+                      let showDelete = (visitorName && c.name === visitorName) || isAdminLoggedIn;
+                      let deleteBtnHtml = showDelete ? `<button class="delete-comm-btn" onclick="deleteCloudCondolence('${c.commentId}')">حذف</button>` : '';
+                      let avatarHtml = renderAvatarHtml(c.name, c.photo, cIsVip);
+                      let timeStr = formatCommentTime(c.timestamp);
+                      let nameDisplay = cIsVip
+                          ? `<span class="vip-author-name">🕊️ ${c.name} <span class="vip-badge">مؤسس الأرشيف</span></span>`
+                          : `<b>${c.name}</b>`;
+
+                      let commentReplies = replies.filter(r => r.parentId === c.commentId);
+                      let repliesHtml = '';
                       
-                      <div style="margin-top: 5px;">${repliesHtml}</div>
+                      commentReplies.forEach(r => {
+                          let rIsVip = isVipName(r.name) || r.isVip === true;
+                          let showReplyDelete = (visitorName && r.name === visitorName) || isAdminLoggedIn;
+                          let deleteReplyBtn = showReplyDelete ? `<button class="delete-comm-btn" onclick="deleteCloudCondolence('${r.commentId}')" style="font-size:0.68rem; padding:2px 6px;">حذف</button>` : '';
+                          let replyAvatar = renderAvatarHtml(r.name, r.photo, rIsVip);
+                          let replyTime = formatCommentTime(r.timestamp);
+                          let replyNameDisplay = rIsVip
+                              ? `<span class="vip-author-name" style="font-size:1rem;">🕊️ ${r.name} <span class="vip-badge">مؤسس الأرشيف</span></span>`
+                              : `<b>${r.name}</b>`;
 
-                      <div style="display: flex; gap: 5px; margin-top: 8px;">
-                          <input type="text" id="replyText_${c.commentId}" placeholder="اكتب رداً أو تعقيباً..." style="flex:1; padding: 6px 10px; border: 1px solid #ced4da; border-radius: 4px; font-size: 0.85rem;">
-                          <button onclick="addReplyToComment('${personId}', '${c.commentId}')" style="background: var(--secondary-color); color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 0.85rem; cursor: pointer; font-weight: bold;">رد</button>
-                      </div>
-                  </div>
-              `;
-          });
-          listContainer.innerHTML = html;
-      }, (error) => {
-          console.error("خطأ في جلب التعليقات سحابياً: ", error);
-      });
-}
+                          repliesHtml += `
+                              <div style="background: ${rIsVip ? '#fffdf7' : '#f1f3f5'}; padding: 8px 10px; border-radius: 8px; margin-top: 8px; margin-right: 16px; border-right: 3px solid ${rIsVip ? '#d4af37' : 'var(--primary-color)'}; font-size: 0.9rem;">
+                                  <div style="display:flex; justify-content:space-between; align-items:center; gap:6px;">
+                                      <div style="display:flex; align-items:center; gap:8px;">
+                                          ${replyAvatar}
+                                          <div>
+                                              ${replyNameDisplay}
+                                              ${replyTime ? `<span class="comment-time">${replyTime}</span>` : ''}
+                                          </div>
+                                      </div>
+                                      ${deleteReplyBtn}
+                                  </div>
+                                  <p style="margin-top:5px; color:#333; padding-right:46px;">${r.text}</p>
+                              </div>
+                          `;
+                      });
+
+                      html += `
+                          <div class="comment-card ${cIsVip ? 'vip-card' : ''}">
+                              <div class="comment-header">
+                                  <div class="comment-author-wrap">
+                                      ${avatarHtml}
+                                      <div>
+                                          ${nameDisplay}
+                                          ${timeStr ? `<span class="comment-time">${timeStr}</span>` : ''}
+                                      </div>
+                                  </div>
+                                  <div class="comment-actions">
+                                      <button type="button" class="reply-toggle-btn" onclick="toggleReplyBox('${c.commentId}')">💬 رد</button>
+                                      ${deleteBtnHtml}
+                                  </div>
+                              </div>
+                              <p style="margin: 8px 0 4px 0; color: #2b2b2b; padding-right: 48px;">${c.text}</p>
+                              
+                              <div style="margin-top: 5px;">${repliesHtml}</div>
+
+                              <div class="reply-box-container" id="replyBox_${c.commentId}">
+                                  <input type="text" id="replyText_${c.commentId}" placeholder="اكتب رداً أو تعقيباً..." style="flex:1; padding: 7px 10px; border: 1px solid #ced4da; border-radius: 6px; font-size: 0.85rem;">
+                                  <button onclick="addReplyToComment('${personId}', '${c.commentId}')" style="background: var(--secondary-color); color: white; border: none; padding: 7px 14px; border-radius: 6px; font-size: 0.85rem; cursor: pointer; font-weight: bold;">إرسال</button>
+                              </div>
+                          </div>
+                      `;
+                  });
+                  listContainer.innerHTML = html;
+              }, (error) => {
+                  console.error("خطأ في جلب التعليقات سحابياً: ", error);
+              });
+        }
 
         function addCloudCondolence(personId, inputId) {
             if (!visitorName) {
@@ -1139,9 +1328,13 @@ function loadCloudCondolencesForPerson(personId) {
                 return;
             }
 
+            const currentVip = isVipName(visitorName) && isVipVerified;
+
             db.collection("condolences").add({
                 deceasedId: personId,
                 name: visitorName,
+                photo: visitorPhoto || "",
+                isVip: currentVip,
                 text: text,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             }).then(() => {
@@ -1164,14 +1357,20 @@ function loadCloudCondolencesForPerson(personId) {
                 return;
             }
 
+            const currentVip = isVipName(visitorName) && isVipVerified;
+
             db.collection("condolences").add({
                 deceasedId: personId,
                 parentId: parentId,
                 name: visitorName,
+                photo: visitorPhoto || "",
+                isVip: currentVip,
                 text: text,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             }).then(() => {
                 input.value = "";
+                const box = document.getElementById(`replyBox_${parentId}`);
+                if (box) box.classList.remove('open');
             }).catch((error) => {
                 alert('حدث خطأ في إرسال الرد: ' + error.message);
             });
@@ -1192,112 +1391,112 @@ function loadCloudCondolencesForPerson(personId) {
             });
         }
 
-      function renderLatestAnnouncement() {
-    const announcementEl = document.getElementById('latest-announcement');
-    const latest = deathsData.find(d => d.isAnnouncement === true);
+        function renderLatestAnnouncement() {
+            const announcementEl = document.getElementById('latest-announcement');
+            const latest = deathsData.find(d => d.isAnnouncement === true);
 
-    if (!latest) {
-        announcementEl.innerHTML = `
-            <div class="latest-card">
-                <p style="text-align: center; color: #666; padding: 10px;">لا توجد حالات وفاة جديدة معلنة حالياً. بانتظار إضافة أحدث حالة وفاة من لوحة المشرف.</p>
-            </div>
-        `;
-        return;
-    }
+            if (!latest) {
+                announcementEl.innerHTML = `
+                    <div class="latest-card">
+                        <p style="text-align: center; color: #666; padding: 10px;">لا توجد حالات وفاة جديدة معلنة حالياً. بانتظار إضافة أحدث حالة وفاة من لوحة المشرف.</p>
+                    </div>
+                `;
+                return;
+            }
 
-    let pId = latest.docId || latest.id;
-    const fullDate = getFullDeathDate(latest);
-    const noteText = String(latest.notes || '').trim();
+            let pId = latest.docId || latest.id;
+            const fullDate = getFullDeathDate(latest);
+            const noteText = String(latest.notes || '').trim();
 
-    announcementEl.innerHTML = `
-        <div class="latest-card">
-            <div class="latest-flex">
-                <div>
-                    <h3 style="color: var(--primary-color);">انتقل إلى رحمة الله تعالى</h3>
-                    <p style="font-size: 1.05rem;"><b>الاسم:</b> ${latest.name}</p>
-                    <p style="font-size: 0.95rem;"><b>تاريخ الوفاة:</b> ${fullDate}</p>
-                    <p style="color: #b7094c; font-weight: bold;"><b>${latest.details || ''}</b></p>
-                    ${noteText ? `<p style="font-size: 0.92rem; color: #1f5c34; margin-top: 4px;"><b>ملاحظة:</b> ${noteText}</p>` : ''}
-                    <button class="go-to-profile-announcement-btn" onclick="openPersonProfile('${pId}')">🕊️ الدخول إلى ديوان العزاء وغرفة المراسلة</button>
+            announcementEl.innerHTML = `
+                <div class="latest-card">
+                    <div class="latest-flex">
+                        <div>
+                            <h3 style="color: var(--primary-color);">انتقل إلى رحمة الله تعالى</h3>
+                            <p style="font-size: 1.05rem;"><b>الاسم:</b> ${latest.name}</p>
+                            <p style="font-size: 0.95rem;"><b>تاريخ الوفاة:</b> ${fullDate}</p>
+                            <p style="color: #b7094c; font-weight: bold;"><b>${latest.details || ''}</b></p>
+                            ${noteText ? `<p style="font-size: 0.92rem; color: #1f5c34; margin-top: 4px;"><b>ملاحظة:</b> ${noteText}</p>` : ''}
+                            <button class="go-to-profile-announcement-btn" onclick="openPersonProfile('${pId}')">🕊️ الدخول إلى ديوان العزاء وغرفة المراسلة</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    `;
-}
-
-       function renderRecords() {
-    const listEl = document.getElementById('records-list');
-    const searchVal = document.getElementById('searchInput').value.trim().toLowerCase();
-
-    const menList = deathsData.filter(d => d.category === 'men');
-    const womenList = deathsData.filter(d => d.category === 'women');
-    const childList = deathsData.filter(d => d.category === 'child');
-
-    document.getElementById('countMen').innerText = menList.length;
-    document.getElementById('countWomen').innerText = womenList.length;
-    document.getElementById('countChild').innerText = childList.length;
-
-    const totalCounterEl = document.getElementById('totalDeceasedCounter');
-    if (totalCounterEl) {
-        totalCounterEl.innerText = deathsData.length;
-    }
-
-    let activeList = currentCategory === 'men' ? menList : (currentCategory === 'women' ? womenList : childList);
-
-    if (searchVal) {
-        activeList = deathsData.filter(d => {
-            const fullDate = getFullDeathDate(d).toLowerCase();
-            const detailsText = String(d.details || '').toLowerCase();
-            const notesText = String(d.notes || '').toLowerCase();
-            return d.name.toLowerCase().includes(searchVal) ||
-                   String(d.year || '').toLowerCase().includes(searchVal) ||
-                   fullDate.includes(searchVal) ||
-                   detailsText.includes(searchVal) ||
-                   notesText.includes(searchVal);
-        });
-    }
-
-    if (activeList.length === 0) {
-        listEl.innerHTML = `<p style="text-align: center; color: #666; padding: 20px;">لا توجد أسماء مسجلة حالياً في السحاب. قم برفع ملف الـ CSV من لوحة المشرف لترتفع الأسماء إلى السحاب للأبد.</p>`;
-        return;
-    }
-
-    let html = '';
-    activeList.forEach(item => {
-        let pId = item.docId || item.id;
-        let deleteBtnHtml = isAdminLoggedIn ? `<button class="delete-record-btn" onclick="deleteRecordFromCloud('${item.docId}', event)">حذف</button>` : '';
-        let displayDate = getFullDeathDate(item);
-
-        const rawDetails = String(item.details || '').trim();
-        let mainDetail = rawDetails;
-        let noteText = String(item.notes || '').trim();
-
-        if (!noteText && rawDetails.includes('—')) {
-            const parts = rawDetails.split('—');
-            mainDetail = parts[0].trim();
-            noteText = parts.slice(1).join('—').trim();
+            `;
         }
 
-        const noteHtml = noteText
-            ? `<div style="margin-top: 5px; display: inline-block; background: #eef6f0; color: #1f5c34; padding: 2px 8px; border-radius: 6px; font-size: 0.8rem;">📌 ${noteText}</div>`
-            : '';
+        function renderRecords() {
+            const listEl = document.getElementById('records-list');
+            const searchVal = document.getElementById('searchInput').value.trim().toLowerCase();
 
-        html += `
-            <div class="record-card">
-                <div class="record-info" onclick="openPersonProfile('${pId}')">
-                    <h3>${item.name}</h3>
-                    <p style="font-size: 0.85rem; color: #555; margin: 2px 0 0;">${mainDetail}</p>
-                    ${noteHtml}
-                </div>
-                <div class="record-actions">
-                    ${deleteBtnHtml}
-                    <div class="record-date">${displayDate}</div>
-                </div>
-            </div>
-        `;
-    });
-    listEl.innerHTML = html;
-}
+            const menList = deathsData.filter(d => d.category === 'men');
+            const womenList = deathsData.filter(d => d.category === 'women');
+            const childList = deathsData.filter(d => d.category === 'child');
+
+            document.getElementById('countMen').innerText = menList.length;
+            document.getElementById('countWomen').innerText = womenList.length;
+            document.getElementById('countChild').innerText = childList.length;
+
+            const totalCounterEl = document.getElementById('totalDeceasedCounter');
+            if (totalCounterEl) {
+                totalCounterEl.innerText = deathsData.length;
+            }
+
+            let activeList = currentCategory === 'men' ? menList : (currentCategory === 'women' ? womenList : childList);
+
+            if (searchVal) {
+                activeList = deathsData.filter(d => {
+                    const fullDate = getFullDeathDate(d).toLowerCase();
+                    const detailsText = String(d.details || '').toLowerCase();
+                    const notesText = String(d.notes || '').toLowerCase();
+                    return d.name.toLowerCase().includes(searchVal) ||
+                           String(d.year || '').toLowerCase().includes(searchVal) ||
+                           fullDate.includes(searchVal) ||
+                           detailsText.includes(searchVal) ||
+                           notesText.includes(searchVal);
+                });
+            }
+
+            if (activeList.length === 0) {
+                listEl.innerHTML = `<p style="text-align: center; color: #666; padding: 20px;">لا توجد أسماء مسجلة حالياً في السحاب. قم برفع ملف الـ CSV من لوحة المشرف لترتفع الأسماء إلى السحاب للأبد.</p>`;
+                return;
+            }
+
+            let html = '';
+            activeList.forEach(item => {
+                let pId = item.docId || item.id;
+                let deleteBtnHtml = isAdminLoggedIn ? `<button class="delete-record-btn" onclick="deleteRecordFromCloud('${item.docId}', event)">حذف</button>` : '';
+                let displayDate = getFullDeathDate(item);
+
+                const rawDetails = String(item.details || '').trim();
+                let mainDetail = rawDetails;
+                let noteText = String(item.notes || '').trim();
+
+                if (!noteText && rawDetails.includes('—')) {
+                    const parts = rawDetails.split('—');
+                    mainDetail = parts[0].trim();
+                    noteText = parts.slice(1).join('—').trim();
+                }
+
+                const noteHtml = noteText
+                    ? `<div style="margin-top: 5px; display: inline-block; background: #eef6f0; color: #1f5c34; padding: 2px 8px; border-radius: 6px; font-size: 0.8rem;">📌 ${noteText}</div>`
+                    : '';
+
+                html += `
+                    <div class="record-card">
+                        <div class="record-info" onclick="openPersonProfile('${pId}')">
+                            <h3>${item.name}</h3>
+                            <p style="font-size: 0.85rem; color: #555; margin: 2px 0 0;">${mainDetail}</p>
+                            ${noteHtml}
+                        </div>
+                        <div class="record-actions">
+                            ${deleteBtnHtml}
+                            <div class="record-date">${displayDate}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            listEl.innerHTML = html;
+        }
 
         function deleteRecordFromCloud(docId, event) {
             event.stopPropagation();
@@ -1309,51 +1508,51 @@ function loadCloudCondolencesForPerson(personId) {
             });
         }
 
-      function openPersonProfile(personId) {
-    currentSelectedPersonId = personId;
-    const person = deathsData.find(d => (d.docId == personId) || (d.id == personId) || (d.name === personId));
-    if (!person) return;
+        function openPersonProfile(personId) {
+            currentSelectedPersonId = personId;
+            const person = deathsData.find(d => (d.docId == personId) || (d.id == personId) || (d.name === personId));
+            if (!person) return;
 
-    const fullDate = getFullDeathDate(person);
-    const rawDetails = String(person.details || '').trim();
+            const fullDate = getFullDeathDate(person);
+            const rawDetails = String(person.details || '').trim();
 
-    let mainDetail = rawDetails;
-    let noteText = String(person.notes || '').trim();
+            let mainDetail = rawDetails;
+            let noteText = String(person.notes || '').trim();
 
-    if (rawDetails.includes('—')) {
-        const parts = rawDetails.split('—');
-        mainDetail = parts[0].trim();
-        if (!noteText) {
-            noteText = parts.slice(1).join('—').trim();
+            if (rawDetails.includes('—')) {
+                const parts = rawDetails.split('—');
+                mainDetail = parts[0].trim();
+                if (!noteText) {
+                    noteText = parts.slice(1).join('—').trim();
+                }
+            }
+
+            document.getElementById('personNameTitle').innerText = person.name;
+            document.getElementById('personYearDetails').innerText =
+                mainDetail || (fullDate ? `تاريخ الوفاة: ${fullDate}` : `سنة الوفاة: ${person.year || 'غير محدد'}`);
+
+            const noteBoxEl = document.getElementById('personNoteBox');
+            const noteTextEl = document.getElementById('personNoteText');
+            if (noteBoxEl && noteTextEl) {
+                if (noteText) {
+                    noteTextEl.innerText = noteText;
+                    noteBoxEl.style.display = 'block';
+                } else {
+                    noteTextEl.innerText = '';
+                    noteBoxEl.style.display = 'none';
+                }
+            }
+
+            loadCloudCondolencesForPerson(personId);
+
+            document.querySelectorAll('.section-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            document.getElementById('archive').classList.add('active');
+
+            document.getElementById('archiveMainView').style.display = 'none';
+            document.getElementById('jalalSpecialProfileView').style.display = 'none';
+            document.getElementById('personProfileView').style.display = 'block';
         }
-    }
-
-    document.getElementById('personNameTitle').innerText = person.name;
-    document.getElementById('personYearDetails').innerText =
-        mainDetail || (fullDate ? `تاريخ الوفاة: ${fullDate}` : `سنة الوفاة: ${person.year || 'غير محدد'}`);
-
-    const noteBoxEl = document.getElementById('personNoteBox');
-    const noteTextEl = document.getElementById('personNoteText');
-    if (noteBoxEl && noteTextEl) {
-        if (noteText) {
-            noteTextEl.innerText = noteText;
-            noteBoxEl.style.display = 'block';
-        } else {
-            noteTextEl.innerText = '';
-            noteBoxEl.style.display = 'none';
-        }
-    }
-
-    loadCloudCondolencesForPerson(personId);
-
-    document.querySelectorAll('.section-content').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-    document.getElementById('archive').classList.add('active');
-
-    document.getElementById('archiveMainView').style.display = 'none';
-    document.getElementById('jalalSpecialProfileView').style.display = 'none';
-    document.getElementById('personProfileView').style.display = 'block';
-}
 
         function backToArchiveList() {
             document.getElementById('personProfileView').style.display = 'none';
@@ -1404,8 +1603,8 @@ function loadCloudCondolencesForPerson(personId) {
                     let cols = line.split(/,|\t|;/);
                     if (cols.length >= 1) {
                         let name = cols[0] ? cols[0].replace(/["']/g, "").trim() : "";
-let rawDateCol4 = cols[4] ? cols[4].replace(/["']/g, "").trim() : "";
-let rawDate = rawDateCol4 || (cols[1] ? cols[1].replace(/["']/g, "").trim() : "غير محدد");
+                        let rawDateCol4 = cols[4] ? cols[4].replace(/["']/g, "").trim() : "";
+                        let rawDate = rawDateCol4 || (cols[1] ? cols[1].replace(/["']/g, "").trim() : "غير محدد");
                         let category = cols[2] ? cols[2].replace(/["']/g, "").trim().toLowerCase() : "men";
 
                         if (!name) continue;
@@ -1453,33 +1652,33 @@ let rawDate = rawDateCol4 || (cols[1] ? cols[1].replace(/["']/g, "").trim() : "�
             reader.readAsText(file, 'UTF-8');
         }
 
-       function publishAnnouncement() {
-    const name = document.getElementById('new-name').value.trim();
-    const category = document.getElementById('new-category').value;
-    const fullDateInput = document.getElementById('new-date').value.trim() || 'حديثاً';
-    const yearMatch = fullDateInput.match(/\b(19\d{2}|20\d{2})\b/);
-    const year = yearMatch ? yearMatch[0] : fullDateInput;
-    const prayer = document.getElementById('new-prayer-time').value;
-    const details = document.getElementById('new-details').value.trim();
+        function publishAnnouncement() {
+            const name = document.getElementById('new-name').value.trim();
+            const category = document.getElementById('new-category').value;
+            const fullDateInput = document.getElementById('new-date').value.trim() || 'حديثاً';
+            const yearMatch = fullDateInput.match(/\b(19\d{2}|20\d{2})\b/);
+            const year = yearMatch ? yearMatch[0] : fullDateInput;
+            const prayer = document.getElementById('new-prayer-time').value;
+            const details = document.getElementById('new-details').value.trim();
 
-    if (!name) {
-        alert('يرجى إدخال اسم المتوفى');
-        return;
-    }
+            if (!name) {
+                alert('يرجى إدخال اسم المتوفى');
+                return;
+            }
 
-    db.collection("deaths_archive").add({
-        name: name,
-        fullDate: fullDateInput,
-        year: year,
-        category: category,
-        details: prayer ? `موعد الصلاة: ${prayer}` : `تاريخ الوفاة: ${fullDateInput}`,
-        notes: details,
-        isAnnouncement: true,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    }).then(() => {
-        alert('تم نشر إعلان الوفاة بنجاح في السحاب!');
-    });
-}
+            db.collection("deaths_archive").add({
+                name: name,
+                fullDate: fullDateInput,
+                year: year,
+                category: category,
+                details: prayer ? `موعد الصلاة: ${prayer}` : `تاريخ الوفاة: ${fullDateInput}`,
+                notes: details,
+                isAnnouncement: true,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                alert('تم نشر إعلان الوفاة بنجاح في السحاب!');
+            });
+        }
 
         function addOldRecordOnly() {
             const name = document.getElementById('new-name').value.trim();
@@ -1519,31 +1718,24 @@ let rawDate = rawDateCol4 || (cols[1] ? cols[1].replace(/["']/g, "").trim() : "�
             }
         }
 
+        // إدارة الملف الشخصي الدائم وحماية الاسم الخاص
         function openProfileModal() {
-            const now = new Date().getTime();
-            const threeDaysMs = 3 * 24 * 60 * 60 * 1000;
-            const timeElapsed = now - lastUpdateTime;
-            const notice = document.getElementById('modalLockNotice');
-            const saveBtn = document.getElementById('saveProfileBtn');
+            modalPhotoBase64 = visitorPhoto || "";
+            document.getElementById('modalVisitorName').value = visitorName || "";
+            document.getElementById('modalVisitorPhoto').value = "";
 
-            document.getElementById('modalVisitorName').value = visitorName;
+            const preview = document.getElementById('modalPhotoPreview');
+            const removeBtn = document.getElementById('removePhotoBtn');
             if (visitorPhoto) {
-                const preview = document.getElementById('modalPhotoPreview');
                 preview.src = visitorPhoto;
                 preview.style.display = 'block';
+                removeBtn.style.display = 'inline-block';
+            } else {
+                preview.src = "";
+                preview.style.display = 'none';
+                removeBtn.style.display = 'none';
             }
 
-            if (lastUpdateTime > 0 && timeElapsed < threeDaysMs) {
-                const remainingHours = Math.ceil((threeDaysMs - timeElapsed) / (1000 * 60 * 60));
-                notice.innerText = `عذراً، لا يمكنك تغيير الاسم أو الصورة إلا بعد مرور 3 أيام. متبقي حوالي ${remainingHours} ساعة.`;
-                notice.style.display = 'block';
-                saveBtn.style.opacity = "0.5";
-                saveBtn.disabled = true;
-            } else {
-                notice.style.display = 'none';
-                saveBtn.style.opacity = "1";
-                saveBtn.disabled = false;
-            }
             document.getElementById('profileModal').style.display = 'flex';
         }
 
@@ -1551,7 +1743,15 @@ let rawDate = rawDateCol4 || (cols[1] ? cols[1].replace(/["']/g, "").trim() : "�
             document.getElementById('profileModal').style.display = 'none';
         }
 
-        let modalPhotoBase64 = visitorPhoto;
+        function removeVisitorPhoto() {
+            modalPhotoBase64 = "";
+            document.getElementById('modalVisitorPhoto').value = "";
+            const preview = document.getElementById('modalPhotoPreview');
+            preview.src = "";
+            preview.style.display = 'none';
+            document.getElementById('removePhotoBtn').style.display = 'none';
+        }
+
         function previewVisitorPhoto(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -1570,6 +1770,7 @@ let rawDate = rawDateCol4 || (cols[1] ? cols[1].replace(/["']/g, "").trim() : "�
                     const preview = document.getElementById('modalPhotoPreview');
                     preview.src = modalPhotoBase64;
                     preview.style.display = 'block';
+                    document.getElementById('removePhotoBtn').style.display = 'inline-block';
                 };
                 img.src = e.target.result;
             };
@@ -1577,25 +1778,37 @@ let rawDate = rawDateCol4 || (cols[1] ? cols[1].replace(/["']/g, "").trim() : "�
         }
 
         function saveVisitorProfile() {
-            const nameInput = document.getElementById('modalVisitorName').value.trim();
-            if (!nameInput) {
+            const rawInput = document.getElementById('modalVisitorName').value.trim();
+            if (!rawInput) {
                 alert('يرجى إدخال الاسم الكريم');
                 return;
             }
-            visitorName = nameInput;
-            visitorPhoto = modalPhotoBase64;
-            lastUpdateTime = new Date().getTime();
+
+            // التحقق من الكود السري الخاص بمؤسس الأرشيف أو دخول المشرف
+            if (rawInput === VIP_SECRET_CODE || (isVipName(rawInput) && (isVipVerified || isAdminLoggedIn))) {
+                visitorName = VIP_DISPLAY_NAME;
+                isVipVerified = true;
+                localStorage.setItem('maardibsa_vip_verified', 'true');
+            } else if (isVipName(rawInput)) {
+                alert('عذراً، هذا الاسم محجوز لمؤسس الأرشيف ولا يمكن استخدامه.');
+                return;
+            } else {
+                visitorName = rawInput;
+                isVipVerified = false;
+                localStorage.removeItem('maardibsa_vip_verified');
+            }
+
+            visitorPhoto = modalPhotoBase64 || "";
 
             localStorage.setItem('maardibsa_visitor_name', visitorName);
             localStorage.setItem('maardibsa_visitor_photo', visitorPhoto);
-            localStorage.setItem('maardibsa_last_update', lastUpdateTime);
 
             registerVisitorInCloud(visitorName);
 
             checkSecretActivation(visitorName);
             updateVisitorBanner();
             closeProfileModal();
-            alert('تم حفظ ملفك الشخصي وثباته على جهازك بنجاح!');
+            alert('تم حفظ ملفك الشخصي بنجاح!');
         }
 
         function updateVisitorBanner() {
@@ -1603,10 +1816,22 @@ let rawDate = rawDateCol4 || (cols[1] ? cols[1].replace(/["']/g, "").trim() : "�
             const avatarEl = document.getElementById('bannerAvatar');
             const placeholderEl = document.getElementById('bannerAvatarPlaceholder');
             const statusEl = document.getElementById('bannerStatus');
+            const vipActive = isVipName(visitorName) && isVipVerified;
 
             if (visitorName) {
-                nameEl.innerText = visitorName;
-                statusEl.innerText = "هويتك محفوظة وثابتة على هذا الجهاز";
+                if (vipActive) {
+                    nameEl.innerHTML = `<span class="vip-author-name">🕊️ ${visitorName} <span class="vip-badge">مؤسس الأرشيف</span></span>`;
+                    statusEl.innerText = "حساب مؤسس الأرشيف الموثق";
+                    avatarEl.classList.add('vip-avatar-glow');
+                    placeholderEl.classList.add('vip-avatar-glow');
+                } else {
+                    nameEl.innerText = visitorName;
+                    nameEl.style.color = "var(--primary-color)";
+                    statusEl.innerText = "يمكنك تعديل اسمك وصورتك متى أردت";
+                    avatarEl.classList.remove('vip-avatar-glow');
+                    placeholderEl.classList.remove('vip-avatar-glow');
+                }
+
                 if (visitorPhoto) {
                     avatarEl.src = visitorPhoto;
                     avatarEl.style.display = 'block';
@@ -1617,7 +1842,10 @@ let rawDate = rawDateCol4 || (cols[1] ? cols[1].replace(/["']/g, "").trim() : "�
                 }
             } else {
                 nameEl.innerText = "الزائر الكريم";
+                nameEl.style.color = "var(--primary-color)";
                 statusEl.innerText = "اضغط على ملفي الشخصي لتحديد اسمك وصورتك";
+                avatarEl.classList.remove('vip-avatar-glow');
+                placeholderEl.classList.remove('vip-avatar-glow');
                 avatarEl.style.display = 'none';
                 placeholderEl.style.display = 'flex';
             }
@@ -1662,114 +1890,114 @@ let rawDate = rawDateCol4 || (cols[1] ? cols[1].replace(/["']/g, "").trim() : "�
             arrow.innerText = btn.classList.contains('open') ? '▲' : '▼';
         }
 
-loadTicker();
-loadPublicSadaqat();
-loadPendingSadaqatForAdmin();
+        loadTicker();
+        loadPublicSadaqat();
+        loadPendingSadaqatForAdmin();
 
-function loadTicker() {
-    db.collection("site_settings").doc("ticker").onSnapshot((doc) => {
-        if (doc.exists) {
-            document.getElementById("publicTicker").innerText = doc.data().text || "أهلاً بك في أرشيف راحلي معردبسة.";
-            let adminInput = document.getElementById("adminTickerInput");
-            if(adminInput) adminInput.value = doc.data().text || "";
+        function loadTicker() {
+            db.collection("site_settings").doc("ticker").onSnapshot((doc) => {
+                if (doc.exists) {
+                    document.getElementById("publicTicker").innerText = doc.data().text || "أهلاً بك في أرشيف راحلي معردبسة.";
+                    let adminInput = document.getElementById("adminTickerInput");
+                    if(adminInput) adminInput.value = doc.data().text || "";
+                }
+            });
         }
-    });
-}
 
-function saveTickerToCloud() {
-    let newText = document.getElementById("adminTickerInput").value;
-    db.collection("site_settings").doc("ticker").set({ text: newText })
-    .then(() => {
-        alert("تم تحديث الشريط المتحرك بنجاح!");
-    })
-    .catch((error) => {
-        alert("حدث خطأ: " + error.message);
-    });
-}
-
-function openSadaqaModal() { document.getElementById("sadaqaModal").style.display = "flex"; }
-function closeSadaqaModal() { document.getElementById("sadaqaModal").style.display = "none"; }
-
-function submitSadaqaRequest() {
-    let deceased = document.getElementById("reqDeceasedName").value;
-    let type = document.getElementById("reqSadaqaType").value;
-    let sender = document.getElementById("reqSenderName").value;
-
-    if(!deceased || !type || !sender) {
-        alert("الرجاء تعبئة جميع الحقول.");
-        return;
-    }
-
-    db.collection("sadaqat_requests").add({
-        deceasedName: deceased,
-        sadaqaType: type,
-        senderName: sender,
-        status: "pending",
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-    }).then(() => {
-        alert("تم إرسال طلب الصدقة إلى المشرف بنجاح، وستظهر للعامة بعد اعتمادها.");
-        closeSadaqaModal();
-        document.getElementById("reqDeceasedName").value = "";
-        document.getElementById("reqSadaqaType").value = "";
-        document.getElementById("reqSenderName").value = "";
-    });
-}
-
-function loadPublicSadaqat() {
-    db.collection("sadaqat_requests").where("status", "==", "approved").onSnapshot((snapshot) => {
-        let container = document.getElementById("publicSadaqatList");
-        if(!container) return;
-        container.innerHTML = "";
-        if(snapshot.empty) {
-            container.innerHTML = "<p style='color:gray; font-size:14px;'>لا توجد صدقات معتمدة معروضة حالياً.</p>";
-            return;
+        function saveTickerToCloud() {
+            let newText = document.getElementById("adminTickerInput").value;
+            db.collection("site_settings").doc("ticker").set({ text: newText })
+            .then(() => {
+                alert("تم تحديث الشريط المتحرك بنجاح!");
+            })
+            .catch((error) => {
+                alert("حدث خطأ: " + error.message);
+            });
         }
-        snapshot.forEach((doc) => {
-            let item = doc.data();
-            container.innerHTML += `
-                <div style="border: 1px solid #d4edda; background-color: #f8fff9; padding: 10px; border-radius: 5px; margin-bottom: 10px;">
-                    <p style="margin: 0 0 5px 0;">🕊️ <strong>المتوفى:</strong> ${item.deceasedName}</p>
-                    <p style="margin: 0 0 5px 0; color: #155724;">💧 <strong>الصدقة:</strong> ${item.sadaqaType}</p>
-                    <p style="margin: 0; font-size: 12px; color: #6c757d;">أهداها عنه: ${item.senderName}</p>
-                </div>
-            `;
-        });
-    });
-}
 
-function loadPendingSadaqatForAdmin() {
-    db.collection("sadaqat_requests").where("status", "==", "pending").onSnapshot((snapshot) => {
-        let container = document.getElementById("pendingSadaqatAdmin");
-        if(!container) return;
-        container.innerHTML = "";
-        if(snapshot.empty) {
-            container.innerHTML = "<p style='color:gray;'>لا توجد طلبات صدقة معلقة بانتظار الاعتماد.</p>";
-            return;
+        function openSadaqaModal() { document.getElementById("sadaqaModal").style.display = "flex"; }
+        function closeSadaqaModal() { document.getElementById("sadaqaModal").style.display = "none"; }
+
+        function submitSadaqaRequest() {
+            let deceased = document.getElementById("reqDeceasedName").value;
+            let type = document.getElementById("reqSadaqaType").value;
+            let sender = document.getElementById("reqSenderName").value;
+
+            if(!deceased || !type || !sender) {
+                alert("الرجاء تعبئة جميع الحقول.");
+                return;
+            }
+
+            db.collection("sadaqat_requests").add({
+                deceasedName: deceased,
+                sadaqaType: type,
+                senderName: sender,
+                status: "pending",
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                alert("تم إرسال طلب الصدقة إلى المشرف بنجاح، وستظهر للعامة بعد اعتمادها.");
+                closeSadaqaModal();
+                document.getElementById("reqDeceasedName").value = "";
+                document.getElementById("reqSadaqaType").value = "";
+                document.getElementById("reqSenderName").value = "";
+            });
         }
-        snapshot.forEach((doc) => {
-            let item = doc.data();
-            let id = doc.id;
-            container.innerHTML += `
-                <div style="background: white; padding: 10px; border: 1px solid #ccc; margin-bottom: 8px; border-radius: 4px;">
-                    <p style="margin:0;"><strong>المتوفى:</strong> ${item.deceasedName} | <strong>العمل:</strong> ${item.sadaqaType} | <strong>المُهدي:</strong> ${item.senderName}</p>
-                    <button class="btn" style="background-color: #28a745; color:white; padding: 5px 10px; margin-top: 5px; border:none; border-radius:4px; cursor:pointer;" onclick="approveSadaqa('${id}')">اعتماد ونشر للعامة</button>
-                    <button class="btn" style="background-color: #dc3545; color:white; padding: 5px 10px; margin-top: 5px; border:none; border-radius:4px; cursor:pointer;" onclick="deleteSadaqa('${id}')">حذف الطلب</button>
-                </div>
-            `;
-        });
-    });
-}
 
-function approveSadaqa(id) {
-    db.collection("sadaqat_requests").doc(id).update({ status: "approved" })
-    .then(() => alert("تم اعتماد ونشر الصدقة بنجاح!"));
-}
+        function loadPublicSadaqat() {
+            db.collection("sadaqat_requests").where("status", "==", "approved").onSnapshot((snapshot) => {
+                let container = document.getElementById("publicSadaqatList");
+                if(!container) return;
+                container.innerHTML = "";
+                if(snapshot.empty) {
+                    container.innerHTML = "<p style='color:gray; font-size:14px;'>لا توجد صدقات معتمدة معروضة حالياً.</p>";
+                    return;
+                }
+                snapshot.forEach((doc) => {
+                    let item = doc.data();
+                    container.innerHTML += `
+                        <div style="border: 1px solid #d4edda; background-color: #f8fff9; padding: 10px; border-radius: 5px; margin-bottom: 10px;">
+                            <p style="margin: 0 0 5px 0;">🕊️ <strong>المتوفى:</strong> ${item.deceasedName}</p>
+                            <p style="margin: 0 0 5px 0; color: #155724;">💧 <strong>الصدقة:</strong> ${item.sadaqaType}</p>
+                            <p style="margin: 0; font-size: 12px; color: #6c757d;">أهداها عنه: ${item.senderName}</p>
+                        </div>
+                    `;
+                });
+            });
+        }
 
-function deleteSadaqa(id) {
-    if(confirm("هل أنت متأكد من حذف هذا الطلب؟")) {
-        db.collection("sadaqat_requests").doc(id).delete();
-    }
-}
+        function loadPendingSadaqatForAdmin() {
+            db.collection("sadaqat_requests").where("status", "==", "pending").onSnapshot((snapshot) => {
+                let container = document.getElementById("pendingSadaqatAdmin");
+                if(!container) return;
+                container.innerHTML = "";
+                if(snapshot.empty) {
+                    container.innerHTML = "<p style='color:gray;'>لا توجد طلبات صدقة معلقة بانتظار الاعتماد.</p>";
+                    return;
+                }
+                snapshot.forEach((doc) => {
+                    let item = doc.data();
+                    let id = doc.id;
+                    container.innerHTML += `
+                        <div style="background: white; padding: 10px; border: 1px solid #ccc; margin-bottom: 8px; border-radius: 4px;">
+                            <p style="margin:0;"><strong>المتوفى:</strong> ${item.deceasedName} | <strong>العمل:</strong> ${item.sadaqaType} | <strong>المُهدي:</strong> ${item.senderName}</p>
+                            <button class="btn" style="background-color: #28a745; color:white; padding: 5px 10px; margin-top: 5px; border:none; border-radius:4px; cursor:pointer;" onclick="approveSadaqa('${id}')">اعتماد ونشر للعامة</button>
+                            <button class="btn" style="background-color: #dc3545; color:white; padding: 5px 10px; margin-top: 5px; border:none; border-radius:4px; cursor:pointer;" onclick="deleteSadaqa('${id}')">حذف الطلب</button>
+                        </div>
+                    `;
+                });
+            });
+        }
+
+        function approveSadaqa(id) {
+            db.collection("sadaqat_requests").doc(id).update({ status: "approved" })
+            .then(() => alert("تم اعتماد ونشر الصدقة بنجاح!"));
+        }
+
+        function deleteSadaqa(id) {
+            if(confirm("هل أنت متأكد من حذف هذا الطلب؟")) {
+                db.collection("sadaqat_requests").doc(id).delete();
+            }
+        }
     </script>
 </body>
 </html>
