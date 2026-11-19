@@ -562,7 +562,6 @@
             </div>
 
 <!-- الشريط المتحرك الجذاب (يظهر للجميع) -->
-<!-- الشريط المتحرك الجديد والمعدل -->
 <div class="ticker-container" style="background-color: #ffffff; border: 2px solid #e0e0e0; padding: 12px; margin-bottom: 15px; border-radius: 8px;">
     <div id="publicTicker">جاري التحميل...</div>
 </div>
@@ -639,7 +638,7 @@
                     <button class="sub-tab-btn" onclick="switchCategory('women', this)">النساء (<span id="countWomen">0</span>)</button>
                     <button class="sub-tab-btn" onclick="switchCategory('child', this)">الأطفال (<span id="countChild">0</span>)</button>
                 </div>
-                <input type="text" class="search-box" id="searchInput" oninput="filterRecords()" placeholder="ابحث بالاسم أو العائلة أو السنة...">
+                <input type="text" class="search-box" id="searchInput" oninput="filterRecords()" placeholder="ابحث بالاسم أو العائلة أو التاريخ...">
                 <div id="records-list"></div>
             </div>
 
@@ -649,7 +648,11 @@
                 <div class="profile-header-card">
                     <span style="font-size: 0.85rem; color: var(--secondary-color); font-weight: bold;">أرشيف راحلي معردبسة - غرفة العزاء وصفحة المتوفى</span>
                     <h2 id="personNameTitle"></h2>
+                    
                     <p id="personYearDetails" style="font-size: 0.95rem; color: #555; margin-top: 5px;"></p>
+                    <div id="personNoteBox" style="display: none; margin-top: 10px; padding: 8px 14px; background: #eef6f0; border-right: 4px solid #1f5c34; border-radius: 6px; color: #1f5c34; font-size: 0.95rem;">
+    <strong>ملاحظة:</strong> <span id="personNoteText"></span>
+</div>
                     <div class="profile-badge-counter" id="personCounterBadge">🕊️ عدد أدعية المصلين: 0</div>
                 </div>
 
@@ -684,7 +687,7 @@
                         
                         <p style="margin-top: 12px;"><b>إخواني، أهلي، وأحبتي..</b><br>أما والله إنّي قد دفعتُ يدي وارسلتُها قبلي وأودعتها الله في معارك العز والشرف في سبيل الله، وإنّي لم أستطع تقديم شيء آخر في سبيل الله سوى يدي التي بُترت. وها أنا اليوم أتبعها بأمر الله وانتقل إلى جوار من لا تضيع عنده ودائعُ أبداً.</p>
                         
-                        <p style="margin-top: 12px;">أدعو لي أن يتقبلها الله مني قبولاً حسناً، وأن يثبتني عند السؤال، وأن نلتقي جميعاً على حوض نبينا محمد صلى الله عليه وسلم. وقد قمت بعمل هذا التطبيق خالصاً لوجه الله الكريم، صدقة جارية عني وعن والديه وعن موتى المسلمين أجمعين.</p>
+                        <p style="margin-top: 12px;">أدعو لي أن يتقبلها الله مني قبولاً حسناً، وأن يثبتني عند السؤال، وأن نلتقي جميعاً على حوض نبينا محمد صلى الله وسلم. وقد قمت بعمل هذا التطبيق خالصاً لوجه الله الكريم، صدقة جارية عني وعن والديه وعن موتى المسلمين أجمعين.</p>
                         
                         <p style="text-align: center; margin-top: 18px; font-weight: bold; color: #89023e;">لا تنسوني من صالح دعواتكم بالرحمة والمغفرة.<br>أخوكم المحب لكم دائماً: جلال عبد الرحمن الأبرش (أبو ناصر)</p>
                     </div>
@@ -800,8 +803,8 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>تاريخ الوفاة أو السنة (مثال: 2015):</label>
-                    <input type="text" id="new-date" placeholder="أدخل سنة أو تاريخ الوفاة">
+                    <label>تاريخ الوفاة أو السنة (مثال: 20\1\2003 أو 2015):</label>
+                    <input type="text" id="new-date" placeholder="أدخل تاريخ الوفاة كاملاً أو السنة">
                 </div>
                 <div class="form-group">
                     <label>موعد الصلاة والتنبيه للأهالي:</label>
@@ -821,7 +824,6 @@
                 <button class="submit-btn secondary" onclick="addOldRecordOnly()">➕ إضافة متوفى قديم للأرشيف السحابي</button>
                 
                 <hr style="margin: 25px 0; border:0; border-top:2px dashed var(--accent-color);">
-           <!-- أضف هذا داخل لوحة تحكم المشرف لديك -->
 <div style="background: #e9ecef; padding: 15px; border-radius: 8px; margin-top: 20px;">
     <h3>🛠️ لوحة تحكم المشرف (الشريط والصدقات)</h3>
     
@@ -872,6 +874,48 @@
         let jalalActivated = localStorage.getItem('jalal_secret_activated') === 'true';
         let isAdminLoggedIn = false;
 
+        // دالة موحدة لاستخراج التاريخ الكامل دون حذف اليوم أو الشهر
+        function getFullDeathDate(item) {
+            if (!item) return "";
+            if (item.fullDate && String(item.fullDate).trim()) {
+                return String(item.fullDate).trim();
+            }
+            if (item.deathDate && String(item.deathDate).trim()) {
+                return String(item.deathDate).trim();
+            }
+            if (item.details) {
+                const match = String(item.details).match(/(\d{1,2}[\\\/\-]\d{1,2}[\\\/\-]\d{2,4}|\d{4}[\\\/\-]\d{1,2}[\\\/\-]\d{1,2})/);
+                if (match) return match[0];
+            }
+            if (item.year && String(item.year).trim()) {
+                return String(item.year).trim();
+            }
+            return "غير محدد";
+        }
+function getSortableDateValue(item) {
+  const raw = String((item && (item.details || item.fullDate || item.deathDate || item.year)) || '');
+  const nums = raw.match(/\d+/g);
+  if (!nums || nums.length === 0) return Number.MAX_SAFE_INTEGER;
+  const yearStr = nums.find(n => n.length === 4 && (n.startsWith('19') || n.startsWith('20')));
+  let day = 1, month = 1, year = 9999;
+  if (yearStr) {
+    year = parseInt(yearStr, 10);
+    const idx = nums.indexOf(yearStr);
+    if (idx >= 2) { day = parseInt(nums[idx - 2], 10) || 1; month = parseInt(nums[idx - 1], 10) || 1; }
+    else if (idx === 1) { month = parseInt(nums[0], 10) || 1; }
+  } else { year = parseInt(nums[0], 10) || 9999; }
+  if (year > 2100 && String(year).startsWith('20')) year = parseInt(String(year).slice(0, 4), 10);
+  return year * 10000 + Math.min(Math.max(month, 1), 12) * 100 + Math.min(Math.max(day, 1), 31);
+}
+        // دالة مساعدة لاستخراج السنة للفرز فقط
+        function extractYearNumber(item) {
+            const full = getFullDeathDate(item);
+            const years = full.match(/\b(19\d{2}|20\d{2})\b/);
+            if (years) return parseInt(years[0], 10);
+            const num = parseInt(item && item.year, 10);
+            return isNaN(num) ? 0 : num;
+        }
+
         window.onload = function() {
             updateVisitorBanner();
             updateBellButton();
@@ -884,48 +928,51 @@
             }
         };
 
-        // جلب الوفيات مع الترتيب التلقائي من الأحدث للأقدم بناءً على وقت الإنشاء (createdAt)
-     let previousAnnouncementsCount = 0; // لحفظ العدد السابق ومقارنته لتجنب التكرار المزعج
+        let previousAnnouncementsCount = 0;
 
 function loadDeathsFromCloud() {
-    db.collection("deaths_archive").onSnapshot((snapshot) => {
-        deathsData = [];
+    function processSnapshot(snapshot) {
+        let tempList = [];
         let newAnnouncementFound = false;
 
         snapshot.forEach((doc) => {
             let item = doc.data();
             item.docId = doc.id;
-            deathsData.push(item);
+            tempList.push(item);
         });
 
-        // ترتيب الأسماء تلقائياً حسب السنة من الأحدث إلى الأقدم
-        deathsData.sort((a, b) => {
-            let yearA = parseInt(a.year) || 0;
-            let yearB = parseInt(b.year) || 0;
-            return yearB - yearA;
-        });
+        deathsData = tempList;
 
-        // فحص ما إذا كان هناك إعلان جديد أو تحديث جديد في النعوة
+deathsData.sort((a, b) => getSortableDateValue(a) - getSortableDateValue(b));
         let activeAnnouncements = deathsData.filter(d => d.isAnnouncement === true);
-        
         if (activeAnnouncements.length > 0 && previousAnnouncementsCount > 0 && activeAnnouncements.length > previousAnnouncementsCount) {
             newAnnouncementFound = true;
         }
         previousAnnouncementsCount = activeAnnouncements.length;
 
-        // إذا وجدنا إعلاناً جديداً أو تحديثاً، والمستخدم مفعل للتنبيهات، نقوم بتشغيل الصوت
         if (newAnnouncementFound && notificationsEnabled) {
             playNotificationSound();
         }
 
         renderRecords();
         renderLatestAnnouncement();
+    }
+
+    db.collection("deaths_archive").onSnapshot((snapshot) => {
+        if (!snapshot.empty) {
+            processSnapshot(snapshot);
+        } else {
+            db.collection("deceased").onSnapshot((fallbackSnap) => {
+                processSnapshot(fallbackSnap);
+            }, (error) => {
+                console.error("خطأ في جلب البيانات من deceased: ", error);
+            });
+        }
     }, (error) => {
-        console.error("خطأ في جلب البيانات من السحاب: ", error);
+        console.error("خطأ في جلب البيانات من deaths_archive: ", error);
     });
 }
 
-// دالة توليد نغمة التنبيه الصوتي التلقائي
 function playNotificationSound() {
     try {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -933,7 +980,7 @@ function playNotificationSound() {
         const gainNode = audioCtx.createGain();
 
         oscillator.type = 'sine';
-        oscillator.frequency.setValueAtTime(587.33, audioCtx.currentTime); // نغمة رنين هادئة
+        oscillator.frequency.setValueAtTime(587.33, audioCtx.currentTime);
         oscillator.frequency.setValueAtTime(880, audioCtx.currentTime + 0.15);
 
         gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
@@ -1017,7 +1064,6 @@ function loadCloudCondolencesForPerson(personId) {
               comments.push(item);
           });
 
-          // ترتيب محلي حسب الوقت لتفادي مشاكل فهرسة فايربيس
           comments.sort((a, b) => {
               let timeA = a.timestamp ? a.timestamp.toMillis() : 0;
               let timeB = b.timestamp ? b.timestamp.toMillis() : 0;
@@ -1160,12 +1206,14 @@ function loadCloudCondolencesForPerson(personId) {
             }
 
             let pId = latest.docId || latest.id;
+            const fullDate = getFullDeathDate(latest);
             announcementEl.innerHTML = `
                 <div class="latest-card">
                     <div class="latest-flex">
                         <div>
                             <h3 style="color: var(--primary-color);">انتقل إلى رحمة الله تعالى</h3>
                             <p style="font-size: 1.05rem;"><b>الاسم:</b> ${latest.name}</p>
+                            <p style="font-size: 0.95rem;"><b>تاريخ الوفاة:</b> ${fullDate}</p>
                             <p style="color: #b7094c; font-weight: bold;"><b>${latest.details}</b></p>
                             <button class="go-to-profile-announcement-btn" onclick="openPersonProfile('${pId}')">🕊️ الدخول إلى ديوان العزاء وغرفة المراسلة</button>
                         </div>
@@ -1174,54 +1222,79 @@ function loadCloudCondolencesForPerson(personId) {
             `;
         }
 
-        function renderRecords() {
-            const listEl = document.getElementById('records-list');
-            const searchVal = document.getElementById('searchInput').value.trim().toLowerCase();
-            
-            const menList = deathsData.filter(d => d.category === 'men');
-            const womenList = deathsData.filter(d => d.category === 'women');
-            const childList = deathsData.filter(d => d.category === 'child');
+       function renderRecords() {
+    const listEl = document.getElementById('records-list');
+    const searchVal = document.getElementById('searchInput').value.trim().toLowerCase();
 
-            document.getElementById('countMen').innerText = menList.length;
-            document.getElementById('countWomen').innerText = womenList.length;
-            document.getElementById('countChild').innerText = childList.length;
-            
-            const totalCounterEl = document.getElementById('totalDeceasedCounter');
-            if (totalCounterEl) {
-                totalCounterEl.innerText = deathsData.length;
-            }
+    const menList = deathsData.filter(d => d.category === 'men');
+    const womenList = deathsData.filter(d => d.category === 'women');
+    const childList = deathsData.filter(d => d.category === 'child');
 
-            let activeList = currentCategory === 'men' ? menList : (currentCategory === 'women' ? womenList : childList);
+    document.getElementById('countMen').innerText = menList.length;
+    document.getElementById('countWomen').innerText = womenList.length;
+    document.getElementById('countChild').innerText = childList.length;
 
-            if (searchVal) {
-                activeList = deathsData.filter(d => d.name.toLowerCase().includes(searchVal) || String(d.year).includes(searchVal));
-            }
+    const totalCounterEl = document.getElementById('totalDeceasedCounter');
+    if (totalCounterEl) {
+        totalCounterEl.innerText = deathsData.length;
+    }
 
-            if (activeList.length === 0) {
-                listEl.innerHTML = `<p style="text-align: center; color: #666; padding: 20px;">لا توجد أسماء مسجلة حالياً في السحاب. قم برفع ملف الـ CSV من لوحة المشرف لترتفع الأسماء إلى السحاب للأبد.</p>`;
-                return;
-            }
+    let activeList = currentCategory === 'men' ? menList : (currentCategory === 'women' ? womenList : childList);
 
-            let html = '';
-            activeList.forEach(item => {
-                let pId = item.docId || item.id;
-                let deleteBtnHtml = isAdminLoggedIn ? `<button class="delete-record-btn" onclick="deleteRecordFromCloud('${item.docId}', event)">حذف</button>` : '';
+    if (searchVal) {
+        activeList = deathsData.filter(d => {
+            const fullDate = getFullDeathDate(d).toLowerCase();
+            const detailsText = String(d.details || '').toLowerCase();
+            const notesText = String(d.notes || '').toLowerCase();
+            return d.name.toLowerCase().includes(searchVal) ||
+                   String(d.year || '').toLowerCase().includes(searchVal) ||
+                   fullDate.includes(searchVal) ||
+                   detailsText.includes(searchVal) ||
+                   notesText.includes(searchVal);
+        });
+    }
 
-                html += `
-                    <div class="record-card">
-                        <div class="record-info" onclick="openPersonProfile('${pId}')">
-                            <h3>${item.name}</h3>
-                            <p style="font-size: 0.85rem; color: #555;">${item.details || ''}</p>
-                        </div>
-                        <div class="record-actions">
-                            ${deleteBtnHtml}
-                            <div class="record-date">${item.year}</div>
-                        </div>
-                    </div>
-                `;
-            });
-            listEl.innerHTML = html;
+    if (activeList.length === 0) {
+        listEl.innerHTML = `<p style="text-align: center; color: #666; padding: 20px;">لا توجد أسماء مسجلة حالياً في السحاب. قم برفع ملف الـ CSV من لوحة المشرف لترتفع الأسماء إلى السحاب للأبد.</p>`;
+        return;
+    }
+
+    let html = '';
+    activeList.forEach(item => {
+        let pId = item.docId || item.id;
+        let deleteBtnHtml = isAdminLoggedIn ? `<button class="delete-record-btn" onclick="deleteRecordFromCloud('${item.docId}', event)">حذف</button>` : '';
+        let displayDate = getFullDeathDate(item);
+
+        const rawDetails = String(item.details || '').trim();
+        let mainDetail = rawDetails;
+        let noteText = String(item.notes || '').trim();
+
+        if (!noteText && rawDetails.includes('—')) {
+            const parts = rawDetails.split('—');
+            mainDetail = parts[0].trim();
+            noteText = parts.slice(1).join('—').trim();
         }
+
+        const noteHtml = noteText
+            ? `<div style="margin-top: 5px; display: inline-block; background: #eef6f0; color: #1f5c34; padding: 2px 8px; border-radius: 6px; font-size: 0.8rem;">📌 ${noteText}</div>`
+            : '';
+
+        html += `
+            <div class="record-card">
+                <div class="record-info" onclick="openPersonProfile('${pId}')">
+                    <h3>${item.name}</h3>
+                    <p style="font-size: 0.85rem; color: #555; margin: 2px 0 0;">${mainDetail}</p>
+                    ${noteHtml}
+                </div>
+                <div class="record-actions">
+                    ${deleteBtnHtml}
+                    <div class="record-date">${displayDate}</div>
+                </div>
+            </div>
+        `;
+    });
+    listEl.innerHTML = html;
+}
 
         function deleteRecordFromCloud(docId, event) {
             event.stopPropagation();
@@ -1233,24 +1306,51 @@ function loadCloudCondolencesForPerson(personId) {
             });
         }
 
-        function openPersonProfile(personId) {
-            currentSelectedPersonId = personId;
-            const person = deathsData.find(d => (d.docId == personId) || (d.id == personId) || (d.name === personId));
-            if (!person) return;
+      function openPersonProfile(personId) {
+    currentSelectedPersonId = personId;
+    const person = deathsData.find(d => (d.docId == personId) || (d.id == personId) || (d.name === personId));
+    if (!person) return;
 
-            document.getElementById('personNameTitle').innerText = person.name;
-            document.getElementById('personYearDetails').innerText = person.details || '';
+    const fullDate = getFullDeathDate(person);
+    const rawDetails = String(person.details || '').trim();
 
-            loadCloudCondolencesForPerson(personId);
+    let mainDetail = rawDetails;
+    let noteText = String(person.notes || '').trim();
 
-            document.querySelectorAll('.section-content').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            document.getElementById('archive').classList.add('active');
-
-            document.getElementById('archiveMainView').style.display = 'none';
-            document.getElementById('jalalSpecialProfileView').style.display = 'none';
-            document.getElementById('personProfileView').style.display = 'block';
+    if (rawDetails.includes('—')) {
+        const parts = rawDetails.split('—');
+        mainDetail = parts[0].trim();
+        if (!noteText) {
+            noteText = parts.slice(1).join('—').trim();
         }
+    }
+
+    document.getElementById('personNameTitle').innerText = person.name;
+    document.getElementById('personYearDetails').innerText =
+        mainDetail || (fullDate ? `تاريخ الوفاة: ${fullDate}` : `سنة الوفاة: ${person.year || 'غير محدد'}`);
+
+    const noteBoxEl = document.getElementById('personNoteBox');
+    const noteTextEl = document.getElementById('personNoteText');
+    if (noteBoxEl && noteTextEl) {
+        if (noteText) {
+            noteTextEl.innerText = noteText;
+            noteBoxEl.style.display = 'block';
+        } else {
+            noteTextEl.innerText = '';
+            noteBoxEl.style.display = 'none';
+        }
+    }
+
+    loadCloudCondolencesForPerson(personId);
+
+    document.querySelectorAll('.section-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+    document.getElementById('archive').classList.add('active');
+
+    document.getElementById('archiveMainView').style.display = 'none';
+    document.getElementById('jalalSpecialProfileView').style.display = 'none';
+    document.getElementById('personProfileView').style.display = 'block';
+}
 
         function backToArchiveList() {
             document.getElementById('personProfileView').style.display = 'none';
@@ -1294,14 +1394,15 @@ function loadCloudCondolencesForPerson(personId) {
                     let line = lines[i].trim();
                     if (!line) continue;
 
-                    if (i === 0 && (line.includes('name') || line.includes('الاسم') || line.includes('سنة'))) {
+                    if (i === 0 && (line.includes('name') || line.includes('الاسم') || line.includes('سنة') || line.includes('تاريخ'))) {
                         continue;
                     }
 
                     let cols = line.split(/,|\t|;/);
                     if (cols.length >= 1) {
                         let name = cols[0] ? cols[0].replace(/["']/g, "").trim() : "";
-                        let year = cols[1] ? cols[1].replace(/["']/g, "").trim() : "غير محدد";
+let rawDateCol4 = cols[4] ? cols[4].replace(/["']/g, "").trim() : "";
+let rawDate = rawDateCol4 || (cols[1] ? cols[1].replace(/["']/g, "").trim() : "غير محدد");
                         let category = cols[2] ? cols[2].replace(/["']/g, "").trim().toLowerCase() : "men";
 
                         if (!name) continue;
@@ -1313,11 +1414,16 @@ function loadCloudCondolencesForPerson(personId) {
                             catCode = "child";
                         }
 
+                        const yearMatch = rawDate.match(/\b(19\d{2}|20\d{2})\b/);
+                        const yearOnly = yearMatch ? yearMatch[0] : rawDate;
+                        const labelPrefix = /[\\\/\-]/.test(rawDate) ? "تاريخ الوفاة: " : "سنة الوفاة: ";
+
                         let docRef = db.collection("deaths_archive").doc();
                         batch.set(docRef, {
                             name: name,
-                            year: year,
-                            details: "سنة الوفاة: " + year,
+                            fullDate: rawDate,
+                            year: yearOnly,
+                            details: labelPrefix + rawDate,
                             category: catCode,
                             isAnnouncement: false,
                             createdAt: firebase.firestore.FieldValue.serverTimestamp()
@@ -1347,7 +1453,9 @@ function loadCloudCondolencesForPerson(personId) {
         function publishAnnouncement() {
             const name = document.getElementById('new-name').value.trim();
             const category = document.getElementById('new-category').value;
-            const year = document.getElementById('new-date').value.trim() || 'حديثاً';
+            const fullDateInput = document.getElementById('new-date').value.trim() || 'حديثاً';
+            const yearMatch = fullDateInput.match(/\b(19\d{2}|20\d{2})\b/);
+            const year = yearMatch ? yearMatch[0] : fullDateInput;
             const prayer = document.getElementById('new-prayer-time').value;
             const details = document.getElementById('new-details').value.trim();
 
@@ -1358,9 +1466,10 @@ function loadCloudCondolencesForPerson(personId) {
 
             db.collection("deaths_archive").add({
                 name: name,
+                fullDate: fullDateInput,
                 year: year,
                 category: category,
-                details: `موعد الصلاة: ${prayer}\n${details}`,
+                details: `تاريخ الوفاة: ${fullDateInput}\nموعد الصلاة: ${prayer}\n${details}`,
                 isAnnouncement: true,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
             }).then(() => {
@@ -1371,7 +1480,9 @@ function loadCloudCondolencesForPerson(personId) {
         function addOldRecordOnly() {
             const name = document.getElementById('new-name').value.trim();
             const category = document.getElementById('new-category').value;
-            const year = document.getElementById('new-date').value.trim() || 'سابقاً';
+            const fullDateInput = document.getElementById('new-date').value.trim() || 'سابقاً';
+            const yearMatch = fullDateInput.match(/\b(19\d{2}|20\d{2})\b/);
+            const year = yearMatch ? yearMatch[0] : fullDateInput;
             const details = document.getElementById('new-details').value.trim() || 'أرشيف قديم';
 
             if (!name) {
@@ -1381,6 +1492,7 @@ function loadCloudCondolencesForPerson(personId) {
 
             db.collection("deaths_archive").add({
                 name: name,
+                fullDate: fullDateInput,
                 year: year,
                 category: category,
                 details: details,
@@ -1545,13 +1657,11 @@ function loadCloudCondolencesForPerson(personId) {
             const arrow = btn.querySelector('span:last-child');
             arrow.innerText = btn.classList.contains('open') ? '▲' : '▼';
         }
-        // تشغيل الدوال عند تحميل الصفحة
-// (تأكد من إضافتها داخل window.onload لديك أو استدعائها هناك)
+
 loadTicker();
 loadPublicSadaqat();
 loadPendingSadaqatForAdmin();
 
-// 1. إدارة الشريط المتحرك
 function loadTicker() {
     db.collection("site_settings").doc("ticker").onSnapshot((doc) => {
         if (doc.exists) {
@@ -1573,7 +1683,6 @@ function saveTickerToCloud() {
     });
 }
 
-// 2. إهداءات الصدقات
 function openSadaqaModal() { document.getElementById("sadaqaModal").style.display = "flex"; }
 function closeSadaqaModal() { document.getElementById("sadaqaModal").style.display = "none"; }
 
@@ -1591,7 +1700,7 @@ function submitSadaqaRequest() {
         deceasedName: deceased,
         sadaqaType: type,
         senderName: sender,
-        status: "pending", // بانتظار موافقة المشرف
+        status: "pending",
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
     }).then(() => {
         alert("تم إرسال طلب الصدقة إلى المشرف بنجاح، وستظهر للعامة بعد اعتمادها.");
@@ -1602,7 +1711,6 @@ function submitSadaqaRequest() {
     });
 }
 
-// عرض الصدقات المعتمدة للعامة
 function loadPublicSadaqat() {
     db.collection("sadaqat_requests").where("status", "==", "approved").onSnapshot((snapshot) => {
         let container = document.getElementById("publicSadaqatList");
@@ -1625,7 +1733,6 @@ function loadPublicSadaqat() {
     });
 }
 
-// عرض الطلبات للمشرف
 function loadPendingSadaqatForAdmin() {
     db.collection("sadaqat_requests").where("status", "==", "pending").onSnapshot((snapshot) => {
         let container = document.getElementById("pendingSadaqatAdmin");
