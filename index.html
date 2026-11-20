@@ -325,6 +325,64 @@
             border: 1px solid #e9ecef;
         }
 
+        .deceased-photo-wrap {
+    width: 118px;
+    height: 118px;
+    margin: 10px auto 12px;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 2px solid #2b2b2b;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14);
+    background: #f1f3f5;
+}
+.deceased-photo-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+}
+.deceased-thumb {
+    width: 54px;
+    height: 54px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1.5px solid #2b2b2b;
+    flex-shrink: 0;
+    background: #f1f3f5;
+}
+.deceased-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+}
+    
+        .visitor-once-upload-box {
+            margin-top: 12px;
+            padding: 12px;
+            background: #fffdf9;
+            border: 1px dashed var(--accent-color);
+            border-radius: 10px;
+            font-size: 0.88rem;
+        }
+        @media (max-width: 520px) {
+    .latest-flex {
+        flex-direction: column;
+        text-align: center;
+    }
+    .deceased-photo-wrap {
+        width: 126px;
+        height: 126px;
+    }
+}
+@media (min-width: 600px) {
+    .deceased-photo-wrap {
+        width: 145px;
+        height: 145px;
+    }
+}
         /* تنسيقات بطاقة التعليق والصورة الشخصية المتجاوبة مع الجوال */
         .comment-card {
             background: white;
@@ -487,7 +545,6 @@
             background: linear-gradient(135deg, #fffdf9, #f7fbf8);
             border-color: #e6d5b8;
         }
-
         .accordion-btn {
             width: 100%;
             background: white;
@@ -708,7 +765,6 @@
                 </div>
                 <button onclick="openProfileModal()" style="background: var(--primary-color); color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 0.85rem; white-space: nowrap; flex-shrink: 0;">⚙️ ملفي الشخصي</button>
             </div>
-
             <!-- لوحة النعوة والوفيات الأخيرة -->
             <div class="announcement-board">
                 <div class="quran-verse">﴿ كُلُّ نَفْسٍ ذَائِقَةُ الْمَوْتِ ۗ وَإِنَّمَا تُوَفَّوْنَ أُجورَكُمْ يَوْمَ الْقِيَامَةِ ﴾</div>
@@ -827,6 +883,7 @@
                 <div class="profile-header-card">
                     <span style="font-size: 0.85rem; color: var(--secondary-color); font-weight: bold;">أرشيف راحلي معردبسة - غرفة العزاء وصفحة المتوفى</span>
                     <h2 id="personNameTitle"></h2>
+                    <div id="personPhotoContainer"></div>
                     
                     <p id="personYearDetails" style="font-size: 0.95rem; color: #555; margin-top: 5px;"></p>
                     <div id="personNoteBox" style="display: none; margin-top: 10px; padding: 8px 14px; background: #eef6f0; border-right: 4px solid #1f5c34; border-radius: 6px; color: #1f5c34; font-size: 0.95rem;">
@@ -845,7 +902,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- الصفحة الخاصة لجلال الأبرش -->
             <div id="jalalSpecialProfileView" style="display: none;">
                 <button class="back-btn" onclick="backToArchiveList()">⬅️ العودة إلى القائمة الرئيسية</button>
@@ -860,7 +916,7 @@
                 <div class="person-profile-box" style="border-right-color: #b7094c;">
                     <div style="font-family: 'Amiri', serif; font-size: 1.15rem; line-height: 2.1; color: #2b2b2b; text-align: justify; background: #fff8f9; padding: 20px; border-radius: 8px; border: 1px solid #f7c6c7;">
                         <p style="text-align: center; font-weight: bold; color: #89023e; margin-bottom: 12px;">بسم الله والحمد لله والصلاة والسلام على سيدنا محمد وعلى آله وصحبه ومن والاه...</p>
-                        <p style="text-align: center; color: #2d6a4f; margin-bottom: 15px;">﴿ كُلُّ نَفْسٍ ذَائِقَةُ الْمَوْتِ ۗ وَإِنَّمَا تُوَفَّوْنَ أُجورَكُمْ يَوْمَ الْقِيَامَةِ ﴾<br>﴿ يَا أَيُّهَا النَّفْسُ الْمُطْمَئِنَّةُ ارْجِعِي إِلَى رَبِّكِ رَاضِيَةً مَرْضِيَّةً فَادْخُلِي فِي عِبَادِي وَادْخُلِي جَنَّتِي ﴾</p>
+                        <p style="text-align: center; color: #2d6a4f; margin-bottom: 15px;">﴿ كُلُّ نَفْسٍ ذَائِقَةُ الْمَوْتِ ۗ وَإِنَّمَا تُوَفَّوْنَ أُجورَكُمْ يَوْمَ الْقِيَامَةِ ﴾<br>﴿ يَا أَيَّتُهَا النَّفْسُ الْمُطْمَئِنَّةُ ارْجِعِي إِلَى رَبِّكِ رَاضِيَةً مَرْضِيَّةً فَادْخُلِي فِي عِبَادِي وَادْخُلِي جَنَّتِي ﴾</p>
                         
                         <p><b>أما بعد..</b><br>حينما تظهر هذه الخانة للجميع، أكون قد انتقلت إلى رحمة الله تعالى، وتكون هذه أول ليلة لي في القبر. أسأل الله العظيم الثبات عند السؤال، وأدعو الله لي ولكم بالنجاة والفوز ومرافقة الأنبياء والصديقين في جنات النعيم.</p>
                         
@@ -998,7 +1054,11 @@
                     <label>مكان الدفن والتفاصيل:</label>
                     <textarea id="new-details" rows="3" placeholder="مثال: دفن بمقبرة القرية، العزاء في ديوان القرية"></textarea>
                 </div>
-
+                <div class="form-group">
+                    <label>صورة المتوفى (اختياري - تظهر في النعوة وصفحة المتوفى):</label>
+                    <input type="file" id="admin-deceased-photo" accept="image/*" onchange="previewAdminDeceasedPhoto(event)">
+                    <img id="adminDeceasedPhotoPreview" class="photo-preview" alt="معاينة صورة المتوفى">
+                </div>
                 <button class="submit-btn" onclick="publishAnnouncement()">📢 نشر إعلان وفاة حديثة (تظهر بالرئيسية وترسل تنبيه)</button>
                 <button class="submit-btn secondary" onclick="addOldRecordOnly()">➕ إضافة متوفى قديم للأرشيف السحابي</button>
                 
@@ -1057,6 +1117,8 @@
         let notificationsEnabled = localStorage.getItem('maardibsa_notifications') === 'true';
         let jalalActivated = localStorage.getItem('jalal_secret_activated') === 'true';
         let isAdminLoggedIn = false;
+        let adminDeceasedPhotoBase64 = "";
+        let visitorPersonPhotoBase64 = "";
 
         function isVipName(name) {
             if (!name) return false;
@@ -1110,6 +1172,109 @@
             return year * 10000 + Math.min(Math.max(month, 1), 12) * 100 + Math.min(Math.max(day, 1), 31);
         }
 
+        function compressImageFile(file, maxSize, quality, callback) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    let w = img.width, h = img.height;
+                    if (w > h) {
+                        if (w > maxSize) { h *= maxSize / w; w = maxSize; }
+                    } else {
+                        if (h > maxSize) { w *= maxSize / h; h = maxSize; }
+                    }
+                    canvas.width = Math.round(w);
+                    canvas.height = Math.round(h);
+                    canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+                    callback(canvas.toDataURL('image/jpeg', quality));
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function previewAdminDeceasedPhoto(event) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) {
+                adminDeceasedPhotoBase64 = "";
+                return;
+            }
+            compressImageFile(file, 400, 0.88, function(dataUrl) {
+                adminDeceasedPhotoBase64 = dataUrl;
+                const preview = document.getElementById('adminDeceasedPhotoPreview');
+                if (preview) {
+                    preview.src = dataUrl;
+                    preview.style.display = 'block';
+                }
+            });
+        }
+
+    function renderMourningPhotoHtml(photoUrl, name, isThumb = false) {
+    if (!photoUrl || !String(photoUrl).startsWith('data:image')) return '';
+    if (isThumb) {
+        return `<div class="deceased-thumb"><img src="${photoUrl}" alt="${name}"></div>`;
+    }
+    return `<div class="deceased-photo-wrap"><img src="${photoUrl}" alt="${name}"></div>`;
+}
+
+        function renderPersonPhotoSection(person) {
+            const container = document.getElementById('personPhotoContainer');
+            if (!container || !person) return;
+            visitorPersonPhotoBase64 = "";
+
+            if (person.photo) {
+                container.innerHTML = renderMourningPhotoHtml(person.photo, person.name, false);
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="visitor-once-upload-box" id="visitorOnceBox_${person.docId}">
+                    <div style="font-weight:700; color:var(--primary-color); margin-bottom:6px;">🖼️ إضافة صورة للمتوفى (متاحة لمرة واحدة فقط)</div>
+                    <div style="font-size:0.78rem; color:#666; margin-bottom:8px;">بمجرد رفع الصورة وحفظها ستُقفل الخانة تلقائياً للجميع.</div>
+                    <input type="file" id="visitorPersonPhotoInput_${person.docId}" accept="image/*" onchange="onVisitorPersonPhotoSelected(event)" style="width:100%; margin-bottom:8px;">
+                    <button type="button" id="saveVisitorPersonPhotoBtn_${person.docId}" onclick="saveVisitorPersonPhotoOnce('${person.docId}')" style="background:var(--primary-color); color:white; border:none; padding:7px 14px; border-radius:6px; font-weight:700; cursor:pointer; font-size:0.82rem;">حفظ الصورة وإغلاق الخانة</button>
+                </div>
+            `;
+        }
+
+        function onVisitorPersonPhotoSelected(event) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) return;
+            compressImageFile(file, 400, 0.88, function(dataUrl) {
+                visitorPersonPhotoBase64 = dataUrl;
+            });
+        }
+
+        function saveVisitorPersonPhotoOnce(docId) {
+            if (!visitorPersonPhotoBase64) {
+                alert('يرجى اختيار صورة أولاً.');
+                return;
+            }
+            const btn = document.getElementById(`saveVisitorPersonPhotoBtn_${docId}`);
+            if (btn) btn.disabled = true;
+
+            const docRef = db.collection("deaths_archive").doc(docId);
+            db.runTransaction(function(transaction) {
+                return transaction.get(docRef).then(function(doc) {
+                    if (!doc.exists) throw new Error("السجل غير موجود.");
+                    const data = doc.data();
+                    if (data.photo || data.photoLocked === true) {
+                        throw new Error("تمت إضافة صورة لهذا المتوفى مسبقاً وتم إغلاق الخانة.");
+                    }
+                    transaction.update(docRef, {
+                        photo: visitorPersonPhotoBase64,
+                        photoLocked: true
+                    });
+                });
+            }).then(function() {
+                visitorPersonPhotoBase64 = "";
+                alert('تم حفظ الصورة بنجاح وتم إغلاق خانة الإضافة.');
+            }).catch(function(err) {
+                if (btn) btn.disabled = false;
+                alert(err.message || 'تعذر حفظ الصورة.');
+            });
+        }
         window.onload = function() {
             if (isVipName(visitorName) && !isVipVerified) {
                 visitorName = "";
@@ -1154,6 +1319,10 @@
 
                 renderRecords();
                 renderLatestAnnouncement();
+                if (currentSelectedPersonId) {
+                    const updatedPerson = deathsData.find(d => (d.docId == currentSelectedPersonId) || (d.id == currentSelectedPersonId) || (d.name === currentSelectedPersonId));
+                    if (updatedPerson) renderPersonPhotoSection(updatedPerson);
+                }
             }
 
             db.collection("deaths_archive").onSnapshot((snapshot) => {
@@ -1305,6 +1474,7 @@
         }
 
         function openJalalProfile() {
+            currentSelectedPersonId = null;
             document.querySelectorAll('.section-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             document.getElementById('archive').classList.add('active');
@@ -1438,7 +1608,6 @@
                   console.error("خطأ في جلب التعليقات سحابياً: ", error);
               });
         }
-
         function addCloudCondolence(personId, inputId) {
             if (!visitorName) {
                 openProfileModal();
@@ -1531,10 +1700,12 @@
             let pId = latest.docId || latest.id;
             const fullDate = getFullDeathDate(latest);
             const noteText = String(latest.notes || '').trim();
+            const photoHtml = renderMourningPhotoHtml(latest.photo, latest.name, false);
 
             announcementEl.innerHTML = `
                 <div class="latest-card">
                     <div class="latest-flex">
+                        ${photoHtml}
                         <div>
                             <h3 style="color: var(--primary-color);">انتقل إلى رحمة الله تعالى</h3>
                             <p style="font-size: 1.05rem;"><b>الاسم:</b> ${latest.name}</p>
@@ -1590,6 +1761,7 @@
                 let pId = item.docId || item.id;
                 let deleteBtnHtml = isAdminLoggedIn ? `<button class="delete-record-btn" onclick="deleteRecordFromCloud('${item.docId}', event)">حذف</button>` : '';
                 let displayDate = getFullDeathDate(item);
+                let thumbHtml = renderMourningPhotoHtml(item.photo, item.name, true);
 
                 const rawDetails = String(item.details || '').trim();
                 let mainDetail = rawDetails;
@@ -1607,6 +1779,7 @@
 
                 html += `
                     <div class="record-card">
+                        ${thumbHtml}
                         <div class="record-info" onclick="openPersonProfile('${pId}')">
                             <h3>${item.name}</h3>
                             <p style="font-size: 0.85rem; color: #555; margin: 2px 0 0;">${mainDetail}</p>
@@ -1652,6 +1825,7 @@
             }
 
             document.getElementById('personNameTitle').innerText = person.name;
+            renderPersonPhotoSection(person);
             document.getElementById('personYearDetails').innerText =
                 mainDetail || (fullDate ? `تاريخ الوفاة: ${fullDate}` : `سنة الوفاة: ${person.year || 'غير محدد'}`);
 
@@ -1679,6 +1853,7 @@
         }
 
         function backToArchiveList() {
+            currentSelectedPersonId = null;
             document.getElementById('personProfileView').style.display = 'none';
             document.getElementById('jalalSpecialProfileView').style.display = 'none';
             document.getElementById('archiveMainView').style.display = 'block';
@@ -1751,6 +1926,8 @@
                             year: yearOnly,
                             details: labelPrefix + rawDate,
                             category: catCode,
+                            photo: "",
+                            photoLocked: false,
                             isAnnouncement: false,
                             createdAt: firebase.firestore.FieldValue.serverTimestamp()
                         });
@@ -1776,6 +1953,17 @@
             reader.readAsText(file, 'UTF-8');
         }
 
+        function resetAdminPhotoInput() {
+            adminDeceasedPhotoBase64 = "";
+            const fileEl = document.getElementById('admin-deceased-photo');
+            const prevEl = document.getElementById('adminDeceasedPhotoPreview');
+            if (fileEl) fileEl.value = "";
+            if (prevEl) {
+                prevEl.src = "";
+                prevEl.style.display = "none";
+            }
+        }
+
         function publishAnnouncement() {
             const name = document.getElementById('new-name').value.trim();
             const category = document.getElementById('new-category').value;
@@ -1797,9 +1985,12 @@
                 category: category,
                 details: prayer ? `موعد الصلاة: ${prayer}` : `تاريخ الوفاة: ${fullDateInput}`,
                 notes: details,
+                photo: adminDeceasedPhotoBase64 || "",
+                photoLocked: Boolean(adminDeceasedPhotoBase64),
                 isAnnouncement: true,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
             }).then(() => {
+                resetAdminPhotoInput();
                 alert('تم نشر إعلان الوفاة بنجاح في السحاب!');
             });
         }
@@ -1823,9 +2014,12 @@
                 year: year,
                 category: category,
                 details: details,
+                photo: adminDeceasedPhotoBase64 || "",
+                photoLocked: Boolean(adminDeceasedPhotoBase64),
                 isAnnouncement: false,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
             }).then(() => {
+                resetAdminPhotoInput();
                 alert('تم إضافة المتوفى للأرشيف السحابي بنجاح!');
             });
         }
@@ -2003,6 +2197,7 @@
         }
 
         function switchSection(sectionId, btnEl) {
+            currentSelectedPersonId = null;
             document.querySelectorAll('.section-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             document.getElementById(sectionId).classList.add('active');
